@@ -19,9 +19,9 @@ const generateToken = (res, payload) => {
 export const handleCreateNewUser = async(req,res) => {
     try {
         
-        const { name, email, password } = req.body
+        const { username, email, password } = req.body
 
-        if(!name || !email || !password) {
+        if(!username || !email || !password) {
             return res.json({ message: "Please fill all the fields", success: false})
         }
 
@@ -32,7 +32,7 @@ export const handleCreateNewUser = async(req,res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const user = await User.create({name, email, password: hashedPassword})
+        const user = await User.create({username, email, password: hashedPassword})
 
         return res.json({ message: "User registered successfully", success: true })
 
@@ -47,7 +47,7 @@ export const handleUserLogin = async(req,res) => {
     try {
         const { email, password } = req.body
         
-        if(!email, !password) {
+        if(!email || !password) {
             return res.json({ message: "Please fill all the fields", success: false })
         }
 
@@ -66,7 +66,7 @@ export const handleUserLogin = async(req,res) => {
         generateToken(res,{ id: user._id, role: user.isAdmin ? "admin" : "user" })
 
         return res.json({ message: "User logged in successfully", success: true, user: {
-            name: user.name,
+            username: user.username,
             email: user.email
         } })
 
@@ -94,7 +94,7 @@ export const handleAdminLogin = async(req,res) => {
 
         const { email, password } = req.body
 
-        if(!email, !password) {
+        if(!email || !password) {
             return res.json({ message: "Please fill all the fields", success: false })
         }
 
@@ -116,7 +116,7 @@ export const handleAdminLogin = async(req,res) => {
             maxAge: 24*60*60*1000
         })
 
-        return res.json({ message: "Admin logged in successfully", success: true})
+        //return res.json({ message: "Admin logged in successfully", success: true})
 
     } catch (error) {
         console.log("Error in HandleAdminLoginUser : ",error.message)

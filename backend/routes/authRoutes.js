@@ -1,5 +1,6 @@
 import express from 'express'
-import { handleAdminLogin, handleUserLogin, handleUserLogout, handleCreateNewUser } from '../controllers/authController'
+import { handleAdminLogin, handleUserLogin, handleUserLogout, handleCreateNewUser } 
+from '../controllers/authController.js'
 
 const authRoutes = express.Router()
 
