@@ -123,3 +123,21 @@ export const handleAdminLogin = async(req,res) => {
         return res.json({ message: "Internal server error", success: false })
     }
 }
+
+export const handleGetProfile = async(req,res) => {
+    try {
+
+        const { id } = req.user
+        const user = await User.findById(id).select("-password")
+
+        if(!user) {
+            return res.status(404).json({ message: "User not found", success: false })
+        }
+
+        res.json(user)
+
+    } catch (error) {
+        console.log("Error in HandleGetProfileUser : ", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}
