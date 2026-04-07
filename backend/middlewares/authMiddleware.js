@@ -18,6 +18,7 @@ export const protect = (req,res,next) => {
 }
 
 export const adminOnly = (req,res,next) => {
+    
     const token = req.cookies.token
 
     if(!token) {
