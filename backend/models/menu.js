@@ -1,7 +1,7 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema, mongoose } from 'mongoose'
 
 const menuSchema = new Schema({
-    menu: {
+    name: {
         type: String,
         required: true,
         trim: true
@@ -29,4 +29,6 @@ const menuSchema = new Schema({
     }
 }, { timestamps: true })
 
-const Menu = model('Category', menuSchema)
+const Menu = model('Menu', menuSchema)
+
+export default Menu

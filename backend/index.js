@@ -6,6 +6,7 @@ import { connectDB } from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import connectCloudinary from './config/cloudinary.js'
+import menuRoutes from './routes/menuRoutes.js'
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ app.get('/', (req,res) => {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/category', categoryRoutes)
+app.use('/api/menu', menuRoutes)
 
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`)

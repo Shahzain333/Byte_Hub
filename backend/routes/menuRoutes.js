@@ -1,7 +1,7 @@
 import express from 'express'
 import { adminOnly } from '../middlewares/authMiddleware.js'
 import upload from '../middlewares/multer.js'
-import { addMenuItem, deleteMenuItem, getAllMenuItem, updateMenuItem } from '../controllers/menuController'
+import { addMenuItem, deleteMenuItem, getAllMenuItem, updateMenuItem } from '../controllers/menuController.js'
 
 const menuRoutes = express.Router()
 
