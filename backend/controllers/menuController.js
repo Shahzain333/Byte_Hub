@@ -28,7 +28,7 @@ export const addMenuItem = async(req,res) => {
     }
 }
 
-export const updateMenuItem = async(re,res) => {
+export const updateMenuItem = async(req,res) => {
     try {
 
         const { id } = req.params
