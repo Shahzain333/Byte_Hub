@@ -109,14 +109,14 @@ export const handleAdminLogin = async(req,res) => {
             expiresIn: '1d'
         })
 
-        return res.cookie("token", token, {
+        res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: 24*60*60*1000
         })
 
-        //return res.json({ message: "Admin logged in successfully", success: true})
+        return res.json({ message: "Admin logged in successfully", success: true})
 
     } catch (error) {
         console.log("Error in HandleAdminLoginUser : ",error.message)
