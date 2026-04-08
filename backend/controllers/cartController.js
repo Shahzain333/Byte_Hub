@@ -40,7 +40,7 @@ export const addToCart = async(req,res) => {
 export const removeToCart = async(req,res) => {
     try {
 
-        const { menuItemId, quantity } = req.body
+        const { menuItemId } = req.body
         const { id } = req.user
 
         const cart = await Cart.findOne({ user: id })
