@@ -22,10 +22,12 @@ export const placeOrder = async(req,res) => {
 
         const newOrder = await Order.create({
             user: id,
-            item: cart.items.map((i) => ({
+            items: cart.items.map((i) => ({
                 menuItem: i.menuItem._id,
                 quantity: i.quantity
-            }))
+            })),
+            totalAmount,
+            address
         })
 
         // clear cart
@@ -46,7 +48,7 @@ export const getUserOrders = async(req,res) => {
         const { id } = req.user
         const order = await Order.find({ user: id }).sort({ createdAt: -1 })
 
-        req.status(200).json({ message: "Get User Orders", success: true, order})
+        res.status(200).json({ message: "Get User Orders", success: true, order })
 
     } catch (error) {
         console.log("Error in Get User Orders : ", error.message)
@@ -57,9 +59,9 @@ export const getUserOrders = async(req,res) => {
 export const getAllOrders = async(req,res) => {
     try {
 
-        const orders = (await Order.find().populate('user')).sort({ createdAt: -1 })
+        const orders = await Order.find().populate('user').sort({ createdAt: -1 })
 
-        req.status(200).json({ message: "Get All Orders", success: true, orders })
+        res.status(200).json({ message: "Get All Orders", success: true, orders })
         
     } catch (error) {
         console.log("Error in Get All Orders : ", error.message)
