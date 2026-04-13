@@ -1,5 +1,5 @@
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Menu from './pages/Menu'
 import MenuDetails from './pages/MenuDetails'
@@ -12,11 +12,17 @@ import MyOrder from './pages/MyOrder'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Contact from './pages/Contact'
+import Navbar from './components/Navbar'
 
 function App() {
 
+  const adminPath = useLocation().pathname.includes("admin")
+
   return (
     <div>
+      
+      {!adminPath && <Navbar/> }
+
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/menu' element={<Menu/>}/>
