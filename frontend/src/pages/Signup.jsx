@@ -1,6 +1,7 @@
 import { React, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { User2Icon, MailIcon, LockIcon } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 
 const Signup = () => {
 
@@ -12,6 +13,7 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
+      toast.success("Registered Successfuly!")
       console.log(formData)
     }
 
@@ -29,17 +31,20 @@ const Signup = () => {
           <h1 className="text-zinc-900 dark:text-white text-3xl mt-10 font-medium">
             Register
           </h1>
+
           <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-2 pb-6">
             Please sign up to continue
           </p>
 
-          <div className="flex items-center w-full mt-4 bg-white dark:bg-zinc-800 border border-zinc-300/80 dark:border-zinc-700 h-12 rounded-full overflow-hidden pl-6 gap-2">
+          <div className="flex items-center w-full mt-4 bg-white dark:bg-zinc-800 border 
+          border-zinc-300/80 dark:border-zinc-700 h-12 rounded-full overflow-hidden pl-6 gap-2">
             {/* User Icon */}
             <User2Icon className="text-white" />
             <input
               type="text"
               placeholder="Name"
-              className="bg-transparent text-zinc-600 dark:text-zinc-200 placeholder-zinc-500 dark:placeholder-zinc-400 outline-none text-sm w-full h-full"
+              className="bg-transparent text-zinc-600 dark:text-zinc-200 placeholder-zinc-500 
+              dark:placeholder-zinc-400 outline-none text-sm w-full h-full"
               name="name"
               value={formData.name}
               onChange={onChangeHandler}

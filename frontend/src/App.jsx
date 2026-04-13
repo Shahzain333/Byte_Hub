@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Contact from './pages/Contact'
 import Navbar from './components/Navbar'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
@@ -21,6 +22,8 @@ function App() {
   return (
     <div>
       
+      <Toaster/>
+
       {!adminPath && <Navbar/> }
 
       <Routes>

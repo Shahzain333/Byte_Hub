@@ -1,6 +1,7 @@
 import { React, useState } from "react"
 import { Link } from 'react-router-dom'
 import { MailIcon, LockIcon } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 
 const Login = () => {
 
@@ -11,6 +12,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
+      toast.success("Login Successfully!")
       console.log(formData)
     }
 
