@@ -1,25 +1,46 @@
-import { React, useState } from "react"
+import { React, useContext, useState } from "react"
 import { Link } from 'react-router-dom'
 import { MailIcon, LockIcon } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { AppContext } from "../context/AppContext"
 
 const Login = () => {
 
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    })
+  const { axios, loading, setLoading, navigate, setUser } = useContext(AppContext)
 
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      toast.success("Login Successfully!")
-      console.log(formData)
-    }
+  const [formData, setFormData] = useState({
+      email: '',
+      password: ''
+  })
 
-    const onChangeHandler = (e) => {
-        const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      setLoading(true)
+      const { data } = await axios.post("/api/auth/login", formData)
+
+      if(data.success) {
+        setUser(true)
+        // localStorage.setItem("user",true)
+        toast.success(data.message)
+        navigate('/')
+      } else {
+        toast.error(data.message)
+      }
+
+    } catch (error) {
+      toast.error(error.response.data.message)
+    } finally {
+      setLoading(false)
     }
+    
+  }
+
+  const onChangeHandler = (e) => {
+      const { name, value } = e.target
+      setFormData(prev => ({ ...prev, [name]: value }))
+  }
 
     return (
       <div className="py-12 flex items-center justify-center">
@@ -66,7 +87,7 @@ const Login = () => {
             type="submit"
             className="mt-2 w-full h-11 rounded-full text-white bg-orange-500 hover:opacity-90 transition-opacity cursor-pointer"
           >
-            Login
+            {loading ? "Loading..." : "Login"}
           </button>
 
           <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 mb-11">

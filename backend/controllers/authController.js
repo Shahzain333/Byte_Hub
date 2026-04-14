@@ -141,3 +141,21 @@ export const handleGetProfile = async(req,res) => {
         return res.json({ message: "Internal server error", success: false })
     }
 }
+
+export const handleIsAuth = async(req,res) => {
+    try {
+
+        const { id } = req.user
+
+        const user = await User.findById(id).select("-password")
+
+        res.json({
+            success: true,
+            user
+        })
+
+    } catch (error) {
+        console.log("Error in isAuth : ", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}

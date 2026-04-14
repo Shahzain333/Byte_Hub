@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -13,6 +13,21 @@ const AppContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(null)
     const value = { navigate, loading, setLoading, user, setUser, axios }
+
+    const isAuth = async () => {
+        try {
+            const { data } = await axios.get('/api/auth/is-auth')
+            if(data.success) {
+                setUser(data.user)
+            }
+        } catch (error) {
+           console.log("Error in isAuth App Context", error)   
+        }
+    }
+
+    useEffect(() => {
+        isAuth();
+    }, [])
     
     return (    
         <AppContext.Provider value={value}>

@@ -1,20 +1,39 @@
-import { React, useState } from 'react'
+import { React, useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { User2Icon, MailIcon, LockIcon } from 'lucide-react'
 import { toast } from 'react-hot-toast'
+import { AppContext } from '../context/AppContext'
 
 const Signup = () => {
 
+  const { axios, loading, setLoading, navigate } = useContext(AppContext)
+
     const [formData, setFormData] = useState({
-        name: '',
+        username: '',
         email: '',
         password: ''
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+      
       e.preventDefault()
-      toast.success("Registered Successfuly!")
-      console.log(formData)
+      
+      try {
+        setLoading(true)
+        const { data } = await axios.post("/api/auth/register", formData)
+        
+        if(data.success) {
+          toast.success(data.message)
+          navigate('/login')
+        } else {
+          toast.error(data.message)
+        }
+      } catch (error) {
+        toast.error(error.response.data.message)
+      } finally {
+        setLoading(false)
+      }
+
     }
 
     const onChangeHandler = (e) => {
@@ -45,8 +64,8 @@ const Signup = () => {
               placeholder="Name"
               className="bg-transparent text-zinc-600 dark:text-zinc-200 placeholder-zinc-500 
               dark:placeholder-zinc-400 outline-none text-sm w-full h-full"
-              name="name"
-              value={formData.name}
+              name="username"
+              value={formData.username}
               onChange={onChangeHandler}
               required
             />
@@ -82,7 +101,7 @@ const Signup = () => {
 
           <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-orange-500 
           hover:opacity-90 transition-opacity cursor-pointer">
-            Register
+            {loading ? "Loading..." : "Create Account" }
           </button>
 
           <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 mb-11">
