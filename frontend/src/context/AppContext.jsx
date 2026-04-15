@@ -26,7 +26,7 @@ const AppContextProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        isAuth();
+        isAuth
     }, [])
     
     return (    

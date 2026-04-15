@@ -1,14 +1,29 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
 import { Calendar, LogOut, Package, ShoppingCart, UserCircle } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
     
-    const { navigate, user, setUser } = useContext(AppContext)
+    const { navigate, user, setUser, axios } = useContext(AppContext)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
+
+    const handleLogOut = async () => {
+        try {
+            const { data } = await axios.post('/api/auth/logout')
+            if(data.success) {
+                setUser(null)
+                toast.success(data.message)
+                navigate('/')
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+            console.log("Error in Handle Logout Navbar", error)   
+        }
+    }
 
   return (
     <nav className='bg-cyan-50 shadow-md sticky top-0 z-50 py-3'>
@@ -81,7 +96,7 @@ const Navbar = () => {
                                                 My Orders
                                             </Link>
                                             
-                                            <button className='flex item-center w-full px-4 py-2 text-red-600 hover:bg-red-50 
+                                            <button onClick={handleLogOut} className='flex item-center w-full px-4 py-2 text-red-600 hover:bg-red-50 
                                             transition-colors'>
                                                 <LogOut size={18} className='mr-3' /> 
                                                 Logout
@@ -147,7 +162,7 @@ const Navbar = () => {
                                                     My Orders
                                                 </Link>
                                                 
-                                                <button className='flex item-center w-full px-4 py-2 text-red-600 hover:bg-red-50 
+                                                <button onClick={handleLogOut} className='flex item-center w-full px-4 py-2 text-red-600 hover:bg-red-50 
                                                 transition-colors'>
                                                     <LogOut size={18} className='mr-3' /> 
                                                     Logout
