@@ -22,7 +22,7 @@ const Footer = () => {
     return (
         <div className="">
 
-            <footer className="bg-white w-full px-5 lg:px-[70px] md:px-[30px] pt-12.5 pb-4.5">
+            <footer className="bg-white w-full px-5 lg:px-[70px] md:px-[30px] pt-15 pb-4.5">
 
                 <div className="flex flex-col md:flex-row justify-between gap-5 w-full">
                     

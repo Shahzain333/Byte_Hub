@@ -43,7 +43,7 @@ const Login = () => {
   }
 
     return (
-      <div className="py-12 flex items-center justify-center">
+      <div className="py-12 flex items-center justify-center lg:pb-22 lg:pt-25">
         <form
           onSubmit={handleSubmit}
           className="w-full sm:w-[350px] text-center border border-zinc-300/60 dark:border-zinc-700 rounded-2xl px-8 bg-white dark:bg-zinc-900"
@@ -85,14 +85,15 @@ const Login = () => {
 
           <button
             type="submit"
-            className="mt-2 w-full h-11 rounded-full text-white bg-orange-500 hover:opacity-90 transition-opacity cursor-pointer"
+            className="mt-2 w-full h-11 rounded-full bg-[#E09A05] hover:opacity-90 text-white 
+             cursor-pointer transition-opacity font-medium"
           >
             {loading ? "Loading..." : "Login"}
           </button>
 
           <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 mb-11">
             Don't have an account?
-            <Link to={"/signup"} className="text-indigo-500 dark:text-indigo-400">
+            <Link to={"/signup"} className="text-[#FFB703]">
               Signup
             </Link>
           </p>
