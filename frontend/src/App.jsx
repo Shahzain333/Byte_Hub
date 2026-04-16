@@ -14,6 +14,7 @@ import Signup from './pages/Signup'
 import Contact from './pages/Contact'
 import Navbar from './components/Navbar'
 import { Toaster } from 'react-hot-toast'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -39,6 +40,9 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
       </Routes>
+
+      {!adminPath && <Footer/> }
+
     </div>
   )
 }
