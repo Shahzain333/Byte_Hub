@@ -12,7 +12,8 @@ const AppContextProvider = ({ children }) => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState(null)
-    const value = { navigate, loading, setLoading, user, setUser, axios }
+    const [admin, setAdmin] = useState(null)
+    const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin }
 
     const isAuth = async () => {
         try {
