@@ -165,7 +165,7 @@ const Navbar = () => {
 
             {/* Small Devices For Mobile Menu Sidebar */}
             <aside className={`${ isMenuOpen ? "translate-x-0 opacity-100 z-20" : `-translate-x-[200px] 
-            opacity-0 z-[-1]`} md:hidden bg-gray-100 px-5 py-5 text-left absolute left-0  
+            opacity-0 z-[-1]`} md:hidden bg-gray-100 px-5 py-5 text-left absolute left-0 top-23 
             w-full transition-all duration-300 flex flex-col gap-4`}>
 
                 <ul className="flex flex-col gap-4 text-[15px] text-[#1A1A1A]">
