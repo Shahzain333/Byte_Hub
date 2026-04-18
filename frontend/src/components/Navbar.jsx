@@ -2,9 +2,10 @@ import React, { useContext, useState, useRef, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import { Link, NavLink } from 'react-router-dom'
 import logo from '../assets/logo.png'
-import { Calendar, LogOut, Package, ShoppingCart, UserCircle } from 'lucide-react'
+import { Calendar, LogOut, Package, ShoppingCart, UserCircle, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CiMenuFries } from 'react-icons/ci'
+import { MdOutlineClose } from "react-icons/md";
 
 const Navbar = () => {
     
@@ -94,7 +95,7 @@ const Navbar = () => {
                 </ul>
 
                 {/* Right - Cart & Login/Profile */}
-                <div className={`flex items-center space-x-2`}>
+                <div className={`flex items-center space-x-1 md:space-x-4`}>
                     
                     <button onClick={() => navigate('/cart')} className='relative p-2 group
                     rounded-lg transition-colors hover:cursor-pointer'>
@@ -150,14 +151,12 @@ const Navbar = () => {
                     </div>
 
                     {/* Menu Icon */}
-                    <div ref={menuRef} className="md:hidden">
-
-                        <CiMenuFries
-                            className="text-[1.8rem] text-[#E09A05]"
-                            onClick={() => setIsMenuOpen((prev) => !prev)}
-                        />
-
-                    </div>
+                    <button ref={menuRef} className="md:hidden text-[1.8rem] text-[#E09A05]" 
+                    onClick={() => setIsMenuOpen((prev) => !prev)}>
+                        {
+                            isMenuOpen ? <MdOutlineClose /> : <CiMenuFries  /> 
+                        }
+                    </button>
                 
                 </div>
             
