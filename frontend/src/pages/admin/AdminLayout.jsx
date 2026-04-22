@@ -175,10 +175,10 @@ const AdminLayout = () => {
             </h2>
 
             <div className='hidden md:flex items-center space-x-4'>
-              <div className='text-sm text-gray-500'>
-                <p className='cursor-pointer hover:underline text-red-500 text-lg font-semibold'
-                onClick={logout}>Logout</p>
-              </div>
+              <button onClick={logout} className='bg-red-500 hover:bg-red-600 text-white px-6
+                py-2 rounded-lg transition-colors font-semibold cursor-pointer'>
+                  Logout
+              </button>  
             </div>
           
           </div>
@@ -186,9 +186,11 @@ const AdminLayout = () => {
 
         {/* Content Area */}
         <main className='flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6'>
+          
           <div className='max-w-7xl mx-auto'>
             <Outlet/>
           </div>
+
         </main>
 
       </div>
