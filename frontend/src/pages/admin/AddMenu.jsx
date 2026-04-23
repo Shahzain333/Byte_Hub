@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
-import { Upload } from 'lucide-react'
+import { Upload , ChevronDown} from 'lucide-react'
 
 const AddMenu = () => {
 
@@ -16,6 +16,26 @@ const AddMenu = () => {
   })
   const [file, setFile] = useState(null)
   const [preview, setPreview] = useState(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState("")
+
+  // Add ref for dropdown
+  const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false)
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside)
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+
+  }, [])
 
   const handleChange = (e) => {
 
@@ -128,23 +148,60 @@ const AddMenu = () => {
         
         </div>
 
-         {/* Select Category Option */}
-         <div className=''>
+        {/* Custom Select Category Option */}
+        <div className='' ref={dropdownRef}>
         
           <label className='block text-sm font-medium text-gray-700 mb-1'>
             Select Category
           </label>
 
-          <select name='category' value={formData.category} onChange={handleChange} 
-          className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2
-            focus:ring-[#E09A05] focus:border-transparent'>
-              <option value="">Select Category</option>
-              {
-                categories.map((item) => (
-                  <option key={item._id} value={item._id}>{item.name}</option>
-                ))
-              }
-          </select>
+          <div className="relative">
+            
+            <button
+              type="button"
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-left focus:outline-none focus:ring-2 focus:ring-[#E09A05] flex justify-between items-center"
+            >
+              <span>
+                {selectedCategory ? categories.find(c => c._id === selectedCategory)?.name : "Select Category"}
+              </span>
+              <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isOpen && (
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md 
+              shadow-lg max-h-60 overflow-auto">
+                
+                {/* Clickable Select Category option */}
+                <div
+                  onClick={() => {
+                    setSelectedCategory("")
+                    setFormData({ ...formData, category: "" })
+                    setIsOpen(false)
+                  }}
+                  className="px-3 py-2 text-gray-500 font-semibold border-b border-gray-200 
+                  bg-gray-50 hover:bg-[#E09A05] hover:text-white cursor-pointer"
+                >
+                  Select Category
+                </div>
+
+                
+                {categories.map((item) => (
+                  <div
+                    key={item._id}
+                    onClick={() => {
+                      setSelectedCategory(item._id)
+                      setFormData({ ...formData, category: item._id })
+                      setIsOpen(false)
+                    }}
+                    className="px-3 py-2 hover:bg-[#E09A05] hover:text-white cursor-pointer"
+                  >
+                    {item.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         
         </div>
 
