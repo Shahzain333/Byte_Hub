@@ -27,7 +27,7 @@ const Categories = () => {
   }
 
   return (
-    <div className='py-4'>
+    <div className='py-0 lg:py-4'>
       
       <h1 className='text-3xl font-bold mb-2'>All Categories</h1>
       
@@ -50,7 +50,7 @@ const Categories = () => {
                 <div className='grid grid-cols-3 item-center mb-4'>
               
                   <div className='flex items-center gap-2 max-w-md'>
-                    <img src={item.image} alt={item.name} className='w-20 h-20 rounded-full'/>
+                    <img src={item.image} alt={item.name} className='md:w-20 w-15 h-15 md:h-20 rounded-full'/>
                   </div>
                   
                   <p className='flex items-center'>{item.name}</p>

@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import toast from "react-hot-toast";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 axios.defaults.withCredentials = true
@@ -15,6 +14,7 @@ const AppContextProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [admin, setAdmin] = useState(null)
     const [categories, setCategories] = useState([])
+    const [menus, setMenus] = useState([])
 
     const isAuth = async () => {
         try {
@@ -45,13 +45,32 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
+    const fetchMenus = async () => {
+        try {
+            
+            const { data } = await axios.get('/api/menu/all')
+            //console.log("Data", data)
+            if(data.success) {
+                setMenus(data.menuItems)
+            } else {
+                //toast.error(data.message)
+                console.log("Failed to fetch categories")
+            }
+
+        } catch (error) {
+            // toast.error(error.response.data.message || "Something went wrong!")
+            console.log("Error in Frontend AppContext fetch Categories", error)
+        }
+    }
+
     useEffect(() => {
         isAuth(),
-        fetchCategories()
-    }, [])
+        fetchCategories(),
+        fetchMenus()
+    }, [menus, categories])
 
     const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin,
-        categories, fetchCategories }
+        categories, fetchCategories, menus, fetchMenus }
 
     
     return (    

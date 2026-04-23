@@ -86,7 +86,7 @@ const AdminLayout = () => {
     <div className='flex h-screen bg-gray-100'>
       
       {/* Mobile Menu Button */}
-      <div className='md:hidden fixed top-4 left-4 z-50'>
+      <div className='lg:hidden fixed top-3 left-3 z-50'>
         
         <button onClick={() => setIsSideBarOpen(!isSideBarOpen)} className='p-2 rounded-md bg-white 
         shadow-lg hover:bg-gray-50 transition-colors text-[#E09A05] text-[1.8rem]'>
@@ -103,7 +103,7 @@ const AdminLayout = () => {
           <div className='flex flex-col h-full'>
           
             {/* Logo Header */}
-            <div className='mt-17 md:mt-10 mx-4 flex items-center justify-center h-16 px-4 
+            <div className='mt-17 lg:mt-10 mx-4 flex items-center justify-center h-16 px-4 
             bg-[#E09A05] text-white rounded-lg'>
               <h1 className='text-xl font-bold'>Admin Panel</h1>
             </div>
@@ -164,18 +164,18 @@ const AdminLayout = () => {
       <div className='flex-1 flex flex-col overflow-hidden lg:ml-0'>
         
         {/* Top Bar */}
-        <header className='bg-white shadow-sm border-b border-gray-200 lg:pl-0 pl-16'>
+        <header className='bg-white shadow-sm border-b border-gray-200 lg:pl-0 pl-14'>
           
-          <div className='flex items-center justify-between px-6 py-4'>
+          <div className='flex items-center justify-between md:px-6 px-3 py-4'>
           
-            <h2 className='text-2xl font-semibold text-gray-800'>
+            <h2 className='text-[1.3rem] md:text-2xl font-semibold text-gray-800'>
               {
                 menuItems.find((item) => isActive(item.path, item.exact))?. name || "Admin apnel"
               }
             </h2>
 
-            <div className='hidden md:flex items-center space-x-4'>
-              <button onClick={logout} className='bg-red-500 hover:bg-red-600 text-white px-6
+            <div className='flex items-center space-x-4'>
+              <button onClick={logout} className='bg-red-500 hover:bg-red-600 text-white md:px-6 px-3
                 py-2 rounded-lg transition-colors font-semibold cursor-pointer'>
                   Logout
               </button>  

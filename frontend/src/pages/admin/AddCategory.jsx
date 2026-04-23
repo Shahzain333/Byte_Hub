@@ -64,11 +64,11 @@ const AddCategory = () => {
   }
 
   return (
-    <div className=''>
+    <div className='py-2'>
       
       <form onSubmit={handleSubmit} className='max-w-md w-full flex flex-col gap-5'>
         
-        { preview && <img src={preview} alt='preview' className='w-[200px]'/> }
+        { preview && <img src={preview} alt='preview' className='w-[250px] h-[230px] rounded-lg'/> }
 
         <div className=''>
         
