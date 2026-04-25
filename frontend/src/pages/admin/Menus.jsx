@@ -34,6 +34,7 @@ const Menus = () => {
       {/* Desktop Table View - hidden on mobile */}
       <div className='hidden md:block border border-gray-400 shadow-sm max-w-5xl mx-auto p-3 overflow-x-auto'>
         
+        {/* Header */}
         <div className='grid grid-cols-6 font-semibold text-gray-700 min-w-[600px]'>
           <div>Image</div>
           <div>Name</div>

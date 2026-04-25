@@ -59,7 +59,7 @@ const AppContextProvider = ({ children }) => {
 
         } catch (error) {
             // toast.error(error.response.data.message || "Something went wrong!")
-            console.log("Error in Frontend AppContext fetch Categories", error)
+            console.log("Error in Frontend AppContext fetch Menus", error)
         }
     }
 
@@ -67,7 +67,7 @@ const AppContextProvider = ({ children }) => {
         isAuth(),
         fetchCategories(),
         fetchMenus()
-    }, [menus, categories])
+    }, [])
 
     const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin,
         categories, fetchCategories, menus, fetchMenus }

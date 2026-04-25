@@ -59,7 +59,7 @@ export const getUserOrders = async(req,res) => {
 export const getAllOrders = async(req,res) => {
     try {
 
-        const orders = await Order.find().populate('user').sort({ createdAt: -1 })
+        const orders = await Order.find().populate('user').populate('items.menuItem').sort({ createdAt: -1 })
 
         res.status(200).json({ message: "Get All Orders", success: true, orders })
         
