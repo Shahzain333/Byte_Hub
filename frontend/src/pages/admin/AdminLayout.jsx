@@ -66,7 +66,7 @@ const AdminLayout = () => {
 
     try {
   
-      const { data } = await axios.post('/api/aut/logout')
+      const { data } = await axios.post('/api/auth/logout')
   
       if(data.success) {
         toast.success(data.message)
