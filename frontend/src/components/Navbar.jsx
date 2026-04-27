@@ -15,7 +15,7 @@ const Navbar = () => {
 
     const NavbarLinks = [
         {name:"Home", path:"/"},
-        {name:"Menu", path:"/menu"},
+        {name:"Menus", path:"/menu"},
         {name:"Reservation", path:"/book-table"},
         {name:"Contact", path:"/contact"}
     ]
@@ -130,7 +130,7 @@ const Navbar = () => {
                                                 My Orders
                                             </Link>
                                             
-                                            <button onClick={handleLogOut} className='flex item-center w-full px-4 py-2 text-[#E09A05] hover:bg-red-50 
+                                            <button onClick={handleLogOut} className='flex item-center w-full px-4 py-2 text-red-500 hover:bg-red-50 
                                             transition-colors'>
                                                 <LogOut size={18} className='mr-3' /> 
                                                 Logout
