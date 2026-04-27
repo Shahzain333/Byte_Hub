@@ -117,11 +117,11 @@ export const handleAdminLogin = async(req,res) => {
         })
 
         return res.json({ 
+            success: true,
+            message: "Admin logged in successfully", 
             admin: {
                 admin: adminEmail
             },
-            message: "Admin logged in successfully", 
-            success: true
         })
 
     } catch (error) {
