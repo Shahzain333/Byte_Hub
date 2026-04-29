@@ -12,7 +12,7 @@ const Categories = () => {
 
         <h2 className="text-4xl font-bold mb-4">
           {" "}
-          Explore Our <span className="text-yellow-500">Categories</span>
+          Explore Our <span className="text-[#FFB703]">Categories</span>
         </h2>
 
         <p> Discover delicious dishes from our carefully curated categories</p>
@@ -26,7 +26,7 @@ const Categories = () => {
               <div className="relative">
             
                 <div className="w-32 h-32 mx-auto rounded-full overflow-hidden shadow-lg border-4 border-white 
-                group-hover:border-yellow-400 transition-all duration-300 group-hover:scale-110 
+                group-hover:border-[#FFB703] transition-all duration-300 group-hover:scale-110 
                 group-hover:shadow-2xl">
             
                   <img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 
@@ -41,7 +41,7 @@ const Categories = () => {
 
               <div className="mt-4">
               
-                <h3 className="font-semibold text-gray-800 group-hover:text-yellow-500 transition-colors 
+                <h3 className="font-semibold text-gray-800 group-hover:text-[#FFB703] transition-colors 
                 duration-300">
                   {cat.name}
                 </h3>
