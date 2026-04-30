@@ -55,7 +55,8 @@ const MenuCard = ({ menu }) => {
       
           <button onClick={() => addToCart(menu._id)} disabled={!menu.isAvailable} className={`flex items-center 
           gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${menu.isAvailable
-                ? "bg-[#FFB703] hover:bg-[#E09A05] text-white hover:scale-105 hover:shadow-lg active:scale-95"
+                ? `bg-[#FFB703] hover:bg-[#E09A05] text-white hover:scale-105 hover:shadow-lg 
+                active:scale-95`
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}>
             <ShoppingCart className="w-4 h-4" />{" "}
