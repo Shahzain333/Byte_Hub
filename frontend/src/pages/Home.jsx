@@ -4,6 +4,7 @@ import Categories from '../components/Categories'
 import Menus from '../components/Menus'
 import NewsLetter from '../components/NewsLetter'
 import Testimonials from '../components/Testimonials'
+import Testimonial2 from '../components/Testimonial2'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Menus/>
       <NewsLetter/>
       <Testimonials/>
+      {/* <Testimonial2/> */}
     </div>
   )
 }
