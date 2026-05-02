@@ -111,11 +111,14 @@ const Menu = () => {
             </>
           ) : (
             <div className='text-center'>
+            
               <p className='text-gray-600'>No Result Found For "{searchQuery}"</p>
+            
               <button onClick={handleClearSearch} className='px-6 py-3 text-white rounded-full
               transition-color duration-300 font-semibold bg-[#FFB703] hover:bg-[#E09A05]'>
                 Clear Search
               </button>
+            
             </div>
           )
         }
