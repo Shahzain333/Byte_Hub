@@ -9,7 +9,7 @@ import { MdOutlineClose } from "react-icons/md";
 
 const Navbar = () => {
     
-    const { navigate, user, setUser, axios } = useContext(AppContext)
+    const { navigate, user, setUser, axios, cartCount } = useContext(AppContext)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
 
@@ -101,7 +101,7 @@ const Navbar = () => {
                     rounded-lg transition-colors hover:cursor-pointer'>
                         <ShoppingCart size={22} className='text-gray-700'/>
                         <span className='absolute -top-1 -right-1 bg-[#FFB703] group-hover:bg-[#E09A05] text-white text-xs
-                        rounded-full w-5 h-5 flex items-center justify-center font-medium'>3</span>
+                        rounded-full w-5 h-5 flex items-center justify-center font-medium'>{cartCount}</span>
                     </button>
 
                     <div className='hidden md:block'>
