@@ -21,16 +21,22 @@ const MyBookings = () => {
   }, []);
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 p-6">
+    <div className="max-w-5xl mx-auto mt-1 p-6">
 
       <h2 className="text-2xl font-semibold mb-6 text-center">My Bookings</h2>
+
+      {bookings.length === 0 ? (
+        
+        <p className="text-center text-gray-600 h-40">You have no bookings yet</p>
+
+      ) : (
 
       <div className="space-y-6">
 
         {bookings.map((booking) => (
           
           <div key={booking._id} className="bg-white shadow-md rounded-2xl p-5 border border-gray-100 
-          hover:shadow-lg transition">
+          hover:shadow-lg transition mb-2">
 
             <div className="flex justify-between items-center mb-3">
             
@@ -93,6 +99,8 @@ const MyBookings = () => {
         ))}
   
       </div>
+
+      )}
   
     </div>
 

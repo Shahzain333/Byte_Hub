@@ -48,7 +48,7 @@ const Bookings = () => {
   }, []);
 
   return (
-    <div className="py-2 px-3 sm:px-6">
+    <div className="px-3 sm:px-6">
       
       <h1 className="text-2xl sm:text-3xl font-bold text-center my-3">All Bookings</h1>
       
@@ -139,23 +139,23 @@ const Bookings = () => {
                 
                 <div className="flex flex-col md:grid md:grid-cols-6 md:items-center gap-2 md:gap-0">
                 
-                  <p className="font-medium text-center md:text-left">
+                  <p className="font-medium text-left md:text-left">
                     {item?.name}
                   </p>
-                  <p className="font-medium text-center md:text-left">
+                  <p className="font-medium text-left md:text-left">
                     {item?.phone}
                   </p>
-                  <p className="text-gray-600 hidden md:block text-center">
+                  <p className="text-gray-600 hidden md:block text-left">
                     {item?.numberOfPeople}
                   </p>
-                  <p className="text-gray-600 hidden md:block text-center">
+                  <p className="text-gray-600 hidden md:block text-left">
                     {new Date(item?.date).toLocaleDateString("en-US", {
                       day: "2-digit",
                       month: "short",
                       year: "numeric",
                     })}
                   </p>
-                  <p className="text-gray-600 hidden md:block text-center">
+                  <p className="text-gray-600 hidden md:block text-left">
                     {item?.time}
                   </p>
                   <div className="flex justify-center md:justify-start items-center gap-2 md:gap-5 mt-2 md:mt-0">

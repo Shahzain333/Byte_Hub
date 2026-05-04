@@ -49,7 +49,7 @@ const Orders = () => {
   }, []);
   
   return (
-    <div className="py-20 px-3 sm:px-6">
+    <div className="px-3 sm:px-6">
       
       <h1 className="text-2xl sm:text-3xl font-bold text-center my-3">All Orders</h1>
       
@@ -93,7 +93,11 @@ const Orders = () => {
                         handleStatusChange(item._id, e.target.value)
                       }
                       disabled={loading}
-                      className="border rounded-md px-3 py-2"
+                      className={`border rounded-md px-3 py-2 ${
+                        item.status === 'Pending' ? 'border-yellow-400' :
+                        item.status === 'Preparing' ? 'border-green-400' :
+                        'border-blue-400'
+                      }`}
                     >
                       <option value="Pending">Pending</option>
                       <option value="Preparing">Preparing</option>
