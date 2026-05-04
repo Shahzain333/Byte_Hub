@@ -47,9 +47,9 @@ export const getUserOrders = async(req,res) => {
     try {
         
         const { id } = req.user
-        const order = await Order.find({ user: id }).sort({ createdAt: -1 })
+        const orders = await Order.find({ user: id }).sort({ createdAt: -1 })
 
-        res.status(200).json({ message: "Get User Orders", success: true, order })
+        res.status(200).json({ message: "Get User Orders", success: true, orders })
 
     } catch (error) {
         console.log("Error in Get User Orders : ", error.message)
