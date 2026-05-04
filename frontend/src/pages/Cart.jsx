@@ -17,9 +17,7 @@ const Cart = () => {
 
   const removeFromCart = async (menuItemId) => {
     try {
-      const { data } = await axios.delete(`/api/cart/remove`,{
-        data: { menuItemId }
-      });
+      const { data } = await axios.delete(`/api/cart/remove/${menuItemId}`);
       if (data.success) {
         toast.success(data.message);
         fetchCart();

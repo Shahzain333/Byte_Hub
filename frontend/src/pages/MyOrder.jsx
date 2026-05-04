@@ -54,7 +54,7 @@ const MyOrder = () => {
                 </h3>
               
                 <span className={`px-3 py-1 text-sm rounded-full ${ order.status === "Pending" ? "bg-yellow-100 text-yellow-700"
-                  : order.status === "Preparing" ? "bg-green-100 text-green-700" : "bg-red-100 text-green-700"}`}>
+                  : order.status === "Preparing" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-500"}`}>
                   {order.status}
                 </span>
 

@@ -74,7 +74,7 @@ const Orders = () => {
               <div className="hidden md:block">
                 <div className="grid grid-cols-5 items-center gap-2">
                   <p className="font-medium text-center md:text-left">
-                    {item?.user.name}
+                    {item?.user.username}
                   </p>
                   <p className="font-medium text-center md:text-left">
                     {item?.address}
@@ -109,7 +109,7 @@ const Orders = () => {
                 {/* Customer Name */}
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-600">Customer:</span>
-                  <span className="font-medium">{item?.user?.name}</span>
+                  <span className="font-medium">{item?.user?.username}</span>
                 </div>
                 
                 {/* Total Amount */}

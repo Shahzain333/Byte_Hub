@@ -5,7 +5,7 @@ import { protect } from '../middlewares/authMiddleware.js'
 const cartRoutes = express.Router()
 
 cartRoutes.post('/add', protect, addToCart)
-cartRoutes.delete('/remove', protect, removeToCart)
+cartRoutes.delete('/remove/:menuItemId', protect, removeToCart)
 cartRoutes.get('/get', protect, getCart)
 
 export default cartRoutes
