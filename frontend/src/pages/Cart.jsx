@@ -133,11 +133,11 @@ const Cart = () => {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 pt-4 border-t border-gray-200">
         
         <h3 className="text-xl font-semibold">
-          Total: <span className="text-green-600">${totalPrice}</span>
+          Total: <span className="text-[#FFB703]">${totalPrice}</span>
         </h3>
 
-        <button onClick={() => navigate("/checkout")} className="w-full sm:w-auto bg-green-600 text-white px-6 
-        py-2 rounded-lg hover:bg-green-700 transition">
+        <button onClick={() => navigate("/checkout")} className="w-full sm:w-auto bg-[#FFB703] text-white px-6 
+        py-2 rounded-lg hover:bg-[#E09A05] transition">
           Checkout
         </button>
   

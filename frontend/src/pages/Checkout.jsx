@@ -45,7 +45,7 @@ const Checkout = () => {
         </h2>
 
         <textarea rows={5} value={address} placeholder="Enter your full address" onChange={(e) => setAddress(e.target.value)}
-          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 
+          className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#FFB703] 
           focus:outline-none resize-none"></textarea>
       
       </div>
@@ -63,7 +63,7 @@ const Checkout = () => {
         
             <p className="flex justify-between text-lg font-medium text-gray-700">
               <span>Total Amount:</span>
-              <span className="text-green-600 font-semibold">$. {totalPrice} </span>
+              <span className="text-[#FFB703] font-semibold">$. {totalPrice} </span>
             </p>
         
           </div>
@@ -96,8 +96,8 @@ const Checkout = () => {
 
         </div>
 
-        <button onClick={handleCheckOut} className="mt-6 bg-green-600 text-white py-3 rounded-lg 
-        hover:bg-green-700 transition font-medium cursor-pointer">
+        <button onClick={handleCheckOut} className="mt-6 bg-[#FFB703] text-white py-3 rounded-lg 
+        hover:bg-[#E09A05] transition font-medium cursor-pointer">
           Confirm Order
         </button>
         

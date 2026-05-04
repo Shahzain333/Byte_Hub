@@ -4,9 +4,9 @@ export const createBooking = async(req,res) => {
     try {
 
         const { id } = req.user
-        const { name, phone, numberOfPeople, date, time, note } = req.body
+        const { name, phone, numberOfPeople, date, time, note, email } = req.body
 
-        if(!name || !phone || !numberOfPeople || !date || !time || !note) {
+        if(!name || !phone || !numberOfPeople || !date || !time || !note || !email) {
             return res.status(400).json({ message: "All fields are required", success: false })
         }
         
@@ -27,7 +27,7 @@ export const createBooking = async(req,res) => {
             numberOfPeople,
             date,
             time,
-            note
+            note, email
         })
 
         res.status(201).json({ message: "Table Booked Successfully", success: true, booking })
