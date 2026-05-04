@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import { Link, NavLink } from 'react-router-dom'
-import logo from '../assets/logo.png'
+import logo from '../assets/BYTE HUB.png'
 import { Calendar, LogOut, Package, ShoppingCart, UserCircle, X } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { CiMenuFries } from 'react-icons/ci'
@@ -59,9 +59,9 @@ const Navbar = () => {
     }, [isMenuOpen])
 
   return (
-    <nav className='bg-cyan-50 shadow-md sticky top-0 z-50 py-3'>
+    <nav className='bg-cyan-50 shadow-md sticky top-0 z-50 py-1 md:py-3'>
 
-        <div className='max-w-7xl mx-auto px-1 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto px-3 sm:px-6 lg:px-8'>
 
             {/* Large Devices For Desktop */}
             <div className='flex items-center justify-between h-16'>
@@ -69,7 +69,7 @@ const Navbar = () => {
                 {/* left - Logo */}
                 <div className='flex items-center'>
                     <Link to="/" className='text-2xl font-bold text-blue-600'>
-                      <img src={logo} alt='logo' className='w-32'/>
+                      <img src={logo} alt='logo' className='w-24 md:w-34'/>
                     </Link>
                 </div>
                 
@@ -164,7 +164,7 @@ const Navbar = () => {
 
             {/* Small Devices For Mobile Menu Sidebar */}
             <aside className={`${ isMenuOpen ? "translate-x-0 opacity-100 z-20" : `-translate-x-[200px] 
-            opacity-0 z-[-1]`} md:hidden bg-gray-100 px-5 py-5 text-left absolute left-0 top-23 
+            opacity-0 z-[-1]`} md:hidden bg-gray-100 px-5 py-5 text-left absolute left-0 top-18 
             w-full transition-all duration-300 flex flex-col gap-4`}>
 
                 <ul className="flex flex-col gap-4 text-[15px] text-[#1A1A1A]">
@@ -183,6 +183,26 @@ const Navbar = () => {
                         
                         </li>
                     ))}
+
+                    {user && (
+                        <>
+                            <li>
+                                <NavLink to={'/my-bookings'} onClick={() => setIsMenuOpen(false)}
+                                className={({ isActive }) => isActive ? "text-[#E09A05]" 
+                                : "text-[#1A1A1A]"}>
+                                    My Bookings
+                                </NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink to={'/my-orders'} onClick={() => setIsMenuOpen(false)}
+                                className={({ isActive }) => isActive ? "text-[#E09A05]" 
+                                : "text-[#1A1A1A]"}>
+                                    My Orders
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
 
                 </ul>
 

@@ -1,4 +1,4 @@
-import logo from "../assets/logo.png"; 
+import logo from "../assets/BYTE HUB.png"; 
 import { Link, NavLink } from "react-router-dom";
 
 // react icons
@@ -22,7 +22,7 @@ const Footer = () => {
     return (
         <div className="">
 
-            <footer className="bg-white w-full px-5 lg:px-[70px] md:px-[30px] pt-15 pb-4.5">
+            <footer className="bg-white w-full px-5 lg:px-[70px] md:px-[30px] pt-4 md:pt-18 pb-4.5">
 
                 <div className="flex flex-col md:flex-row justify-between gap-5 w-full">
                     
@@ -31,11 +31,11 @@ const Footer = () => {
 
                         <img src={logo} alt="logo" className="w-[150px]" />
 
-                        <p className="text-gray-600 mt-4 text-sm max-w-[350px] lg:max-w-[450px]">
+                        <p className="text-gray-600 text-sm max-w-[350px] lg:max-w-[450px] md:pl-7">
                             BiteHub is your go-to platform for delicious meals and seamless reservations. BiteHub is your go-to platform for delicious meals and seamless reservations.
                         </p>
 
-                        <div className="flex gap-2 text-[#E09A05] mt-2">
+                        <div className="flex gap-2 text-[#E09A05] md:pl-4">
 
                             <Link to={'#'} className="text-xl p-1.5 hover:text-white transition-colors 
                             duration-300 rounded-full hover:bg-[#E09A05]">
@@ -52,7 +52,7 @@ const Footer = () => {
                     </div>
 
                     {/* Links Sections */}
-                    <div className="flex gap-18 md:gap-8 lg:gap-20 lg:w-1/2">
+                    <div className="flex gap-10 md:gap-8 lg:gap-20 lg:w-1/2">
 
                         {/* Quick Links */}
                         <div className="lg:w-1/2">
