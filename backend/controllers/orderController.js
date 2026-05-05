@@ -1,6 +1,7 @@
 import Order from '../models/order.js'
 import Cart from '../models/carts.js'
 import User from '../models/user.js'
+import { sendOrderConfirmationEmail } from '../utils/sendTransactionalEmails.js'
 
 export const placeOrder = async(req,res) => {
     try {
@@ -35,7 +36,38 @@ export const placeOrder = async(req,res) => {
         cart.items = []
         await cart.save()
 
-        res.status(201).json({ message: "Order Placed Successfully", success: true, order: newOrder })
+        let emailSent = false
+
+        try {
+            
+            const user = await User.findById(id).select("username email")
+            
+            if (user?.email) {
+                
+                await sendOrderConfirmationEmail({
+                    customerName: user.username || "Customer",
+                    customerEmail: user.email,
+                    orderId: newOrder._id.toString(),
+                    totalAmount: newOrder.totalAmount,
+                    paymentMethod: newOrder.paymentMethod,
+                    address: newOrder.address,
+                })
+
+                emailSent = true
+
+            }
+        } catch (emailError) {
+            console.log("Order confirmation email error:", emailError.message)
+        }
+
+        res.status(201).json({
+            message: emailSent
+                ? "Order placed successfully. Confirmation email sent."
+                : "Order placed successfully, but confirmation email could not be sent right now.",
+            success: true,
+            order: newOrder,
+            emailSent
+        })
 
     } catch (error) {
         console.log("Error in Place Order : ", error.message)

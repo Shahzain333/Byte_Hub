@@ -24,9 +24,14 @@ const AppContextProvider = ({ children }) => {
             const { data } = await axios.get('/api/auth/is-auth')
             if(data.success) {
                 setUser(data.user)
+                return true
             }
+            return false
         } catch (error) {
-           console.log("Error in isAuth App Context", error)   
+           if (error?.response?.status !== 401) {
+                console.log("Error in isAuth App Context", error)
+           }
+           return false
         }
     }
 
@@ -104,7 +109,9 @@ const AppContextProvider = ({ children }) => {
             }
 
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong to Fetch Cart!")
+            if (error?.response?.status !== 401) {
+                toast.error(error.response?.data?.message || "Something went wrong to Fetch Cart!")
+            }
             console.log("Error in Frontend AppContext Fetch Cart", error)
         }
     }
@@ -121,10 +128,21 @@ const AppContextProvider = ({ children }) => {
     }, [cart])
 
     useEffect(() => {
-        isAuth(),
-        fetchCategories(),
-        fetchMenus(),
-        fetchCart()
+        const initializeApp = async () => {
+
+            const authenticated = await isAuth()
+            
+            fetchCategories()
+            fetchMenus()
+            
+            if (authenticated) {
+                fetchCart()
+            }
+        
+        }
+        
+        initializeApp()
+
     }, [])
 
     const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin,

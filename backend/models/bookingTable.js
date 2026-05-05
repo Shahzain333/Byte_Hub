@@ -14,6 +14,10 @@ const bookingTableSchema = new Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: true
+    },
     numberOfPeople: {
         type: Number,
         required: true,

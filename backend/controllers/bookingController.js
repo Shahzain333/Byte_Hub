@@ -1,4 +1,5 @@
 import BookingTable from "../models/bookingTable.js";
+import { sendReservationConfirmationEmail } from "../utils/sendTransactionalEmails.js";
 
 export const createBooking = async(req,res) => {
     try {
@@ -30,7 +31,33 @@ export const createBooking = async(req,res) => {
             note, email
         })
 
-        res.status(201).json({ message: "Table Booked Successfully", success: true, booking })
+        let emailSent = false
+
+        try {
+        
+            await sendReservationConfirmationEmail({
+                customerName: booking.name,
+                customerEmail: booking.email,
+                numberOfPeople: booking.numberOfPeople,
+                date: booking.date,
+                time: booking.time,
+                note: booking.note,
+            })
+        
+            emailSent = true
+        
+        } catch (emailError) {
+            console.log("Reservation confirmation email error:", emailError.message)
+        }
+
+        res.status(201).json({
+            message: emailSent
+                ? "Table booked successfully. Confirmation email sent."
+                : "Table booked successfully, but confirmation email could not be sent right now.",
+            success: true,
+            booking,
+            emailSent
+        })
 
     } catch (error) {
         console.log("Error in Create Booking : ", error.message)
