@@ -8,7 +8,7 @@ const Cart = () => {
 
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 md:h-76 gap-3">
+      <div className="flex flex-col items-center justify-center h-64 gap-3">
         <ShoppingCart className="w-12 h-12 text-gray-300" />
         <h2 className="text-2xl font-semibold text-gray-700">Your Cart is Empty</h2>
       </div>

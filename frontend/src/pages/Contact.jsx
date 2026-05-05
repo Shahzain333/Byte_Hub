@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import toast from "react-hot-toast";
+import { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+
+const initialFormData = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+};
 
 const Contact = () => {
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const [submitted, setSubmitted] = useState(false);
+  const { axios } = useContext(AppContext)
   
   const getMapEmbedUrl = () => {
     const lat = 24.819315733225455;  // ← your latitude
@@ -27,23 +32,25 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = () => {
-    if (formData.name && formData.email && formData.subject && formData.message) {
-      
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
       setSubmitted(true);
       
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          subject: "",
-          message: "",
-        });
-  
-      }, 3000);
-  
+      const { data } = await axios.post("/api/contact/create", formData);
+
+      if (data?.success) {
+        toast.success(data.message || "Message sent successfully.");
+        setFormData(initialFormData);
+      } else {
+        toast.error(data?.message || "Failed to send message.");
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong.");
+    } finally {
+      setSubmitted(false);
     }
   
   };
@@ -173,14 +180,7 @@ const Contact = () => {
               Send a Message
             </h2>
 
-            {submitted && (
-              // <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-              //   Thank you! Your message has been sent successfully.
-              // </div>
-              toast.success("Thank you! Your message has been sent successfully.")
-            )}
-
-            <form>
+            <form onSubmit={handleSubmit}>
 
               <div className="mb-4">
               
@@ -272,7 +272,7 @@ const Contact = () => {
               
               </div>
 
-              <button onClick={handleSubmit} className="w-full bg-[#FFB703]  hover:bg-[#E09A05] text-white 
+              <button type="submit" disabled={submitted} className="w-full bg-[#FFB703]  hover:bg-[#E09A05] text-white 
               font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
                 <Send className="w-5 h-5" />
                 <span>Send Message</span>

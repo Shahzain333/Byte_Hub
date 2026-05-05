@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 
 export const protect = (req,res,next) => {
-    
     const token = req.cookies.token
 
     if(!token) {
@@ -16,6 +15,23 @@ export const protect = (req,res,next) => {
         return res.status(401).json({ message: "Invalid Token" })
     }
 }
+
+// export const optionalProtect = (req,res,next) => {
+//     const token = req.cookies.token
+
+//     if(!token) {
+//         return next()
+//     }
+
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET)
+//         req.user = decoded
+//     } catch (error) {
+//         req.user = null
+//     }
+
+//     next()
+// }
 
 export const adminOnly = (req,res,next) => {
     
