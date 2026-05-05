@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
+import heroSectionContact from '../assets/heroSectionContact.jpg'
 
 const initialFormData = {
   name: "",
@@ -59,7 +60,7 @@ const Contact = () => {
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero Section */}
-      <div className="relative h-64 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200')",}}>
+      <div className="relative h-70 bg-cover bg-center" style={{ backgroundImage: `url(${heroSectionContact})`,}}>
 
         <div className="absolute inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center">
 
