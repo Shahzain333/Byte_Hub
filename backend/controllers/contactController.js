@@ -23,18 +23,25 @@ export const createContact = async (req, res) => {
         let emailSent = false
 
         try {
+            
             await sendContactConfirmationEmail({
                 name: contact.name,
                 email: contact.email,
-                subject: contact.subject
+                phone: contact.phone,
+                subject: contact.subject,
+                message: contact.message
             })
+            
             emailSent = true
+
         } catch (emailError) {
             console.log("Contact confirmation email error:", emailError.message)
         }
 
         return res.status(201).json({
-            message: "Message sent successfully",
+            message: emailSent
+                ? "Message sent successfully. Confirmation email has been sent."
+                : "Message sent successfully, but confirmation email could not be sent right now.",
             success: true,
             contact,
             emailSent
