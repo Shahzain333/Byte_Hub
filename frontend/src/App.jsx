@@ -26,6 +26,7 @@ import Categories from './pages/admin/Categories'
 import Menus from './pages/admin/Menus'
 import Orders from './pages/admin/Orders'
 import Bookings from './pages/admin/Bookings'
+import Contacts from './pages/admin/Contacts'
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
           <Route path='menus' element={ admin ? <Menus/> : <AdminLogin/> }/>
           <Route path='orders' element={ admin ? <Orders/> : <AdminLogin/> }/>
           <Route path='bookings' element={ admin ? <Bookings/> : <AdminLogin/> }/>
+          <Route path='contacts' element={ admin ? <Contacts/> : <AdminLogin/> }/>
         </Route>
       
       </Routes>

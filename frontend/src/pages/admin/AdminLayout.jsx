@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
-import { LayoutDashboard, Plus, Package, Grid3X3, ShoppingCart, BookAIcon, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Plus, Package, Grid3X3, ShoppingCart, BookAIcon, Menu, X, Contact2Icon } from 'lucide-react'
 import { useLocation, Link, Outlet } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { CiMenuFries } from 'react-icons/ci'
@@ -49,6 +49,11 @@ const AdminLayout = () => {
       path: '/admin/bookings',
       name: 'Bookings',
       icon: BookAIcon
+    },
+    {
+      path: '/admin/contacts',
+      name: 'Contacts',
+      icon: Contact2Icon
     }
   ]
 

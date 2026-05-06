@@ -1,22 +1,37 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { toast } from "react-hot-toast";
+import { MapPin } from 'lucide-react'
+
+const statusStyles = (status) => {
+  switch (status) {
+    case "Pending":   return "border-yellow-300 bg-yellow-50 text-yellow-700 focus:ring-yellow-300";
+    case "Preparing": return "border-blue-300 bg-blue-50 text-blue-700 focus:ring-blue-300";
+    case "Delivered": return "border-green-300 bg-green-50 text-green-700 focus:ring-green-300";
+    default:          return "border-gray-300 bg-gray-50 text-gray-700";
+  }
+};
+
+const StatusDot = ({ status }) => {
+  const colors = {
+    Pending:   "bg-yellow-400",
+    Preparing: "bg-blue-400",
+    Delivered: "bg-green-400",
+  };
+  return (
+    <span className={`inline-block w-2 h-2 rounded-full mr-1.5 ${colors[status] || "bg-gray-400"}`} />
+  );
+};
 
 const Orders = () => {
   const { admin, axios, loading, setLoading } = useContext(AppContext);
   const [orders, setOrders] = useState([]);
-  console.log("orders", orders);
 
-  const fecthOrders = async () => {
+  const fetchOrders = async () => {
     try {
       const { data } = await axios.get("/api/order/orders");
-      console.log("dataa", data);
-
-      if (data.success) {
-        setOrders(data.orders);
-      } else {
-        console.log(data.message);
-      }
+      if (data.success) setOrders(data.orders);
+      else console.log(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -25,16 +40,9 @@ const Orders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       setLoading(true);
-      const { data } = await axios.put(`/api/order/update-status/${orderId}`, {
-        status: newStatus,
-      });
-
-      if (data.success) {
-        toast.success(data.message);
-        fecthOrders();
-      } else {
-        toast.error(data.message);
-      }
+      const { data } = await axios.put(`/api/order/update-status/${orderId}`, { status: newStatus });
+      if (data.success) { toast.success(data.message); fetchOrders(); }
+      else toast.error(data.message);
     } catch (error) {
       console.log(error);
     } finally {
@@ -42,177 +50,162 @@ const Orders = () => {
     }
   };
 
+
   useEffect(() => {
-    if (admin) {
-      fecthOrders();
-    }
+    if (admin) fetchOrders();
   }, []);
-  
+
   return (
-    <div className="px-3 sm:px-6">
+    <div className="px-3 sm:px-6 py-2 md:py-6">
       
-      <h1 className="text-2xl sm:text-3xl font-bold text-center my-3">All Orders</h1>
-      
-      <div className="border border-gray-400 max-w-5xl mx-auto p-2 sm:p-3 rounded-lg">
-        
-        {/* Header - Hide on mobile, show on desktop */}
-        <div className="hidden md:grid grid-cols-5 font-semibold text-gray-700 mb-4">
-          <div>Name</div>
-          <div>Address</div>
-          <div>Total Amount</div>
-          <div>payment method</div>
-          <div>Status</div>
-        </div>
-        
-        {/* Items */}
-        <ul className="space-y-4">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">
+        All Orders
+      </h1>
 
-          {orders.map((item) => (
-            <li key={item._id} className="border rounded-lg p-3 md:p-2">
+      <div className="max-w-6xl mx-auto space-y-4">
+
+        {orders.map((item, index) => (
+          
+          <div key={item._id} className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+
+            {/* ── Order Header ── */}
+            <div className="flex flex-wrap items-center gap-3 px-4 py-3 bg-gray-50 border-b border-gray-100">
               
-              {/* Desktop View */}
-              <div className="hidden md:block">
-                <div className="grid grid-cols-5 items-center gap-2">
-                  <p className="font-medium text-center md:text-left">
-                    {item?.user.username}
-                  </p>
-                  <p className="font-medium text-center md:text-left">
-                    {item?.address}
-                  </p>
-                  <p className="text-gray-600">
-                    ${item?.totalAmount}
-                  </p>
-                  <p className="text-gray-600">
-                    {item.paymentMethod}
-                  </p>
-                  <div className="flex justify-center md:justify-start items-center gap-2 md:gap-5 mt-2 md:mt-0">
-                    <select
-                      name="status"
-                      value={item.status}
-                      onChange={(e) =>
-                        handleStatusChange(item._id, e.target.value)
-                      }
-                      disabled={loading}
-                      className={`border rounded-md px-3 py-2 ${
-                        item.status === 'Pending' ? 'border-yellow-400' :
-                        item.status === 'Preparing' ? 'border-green-400' :
-                        'border-blue-400'
-                      }`}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Preparing">Preparing</option>
-                      <option value="Delivered">Delivered</option>
-                    </select>
-                  </div>
-                </div>
+              <span className="text-xs font-mono text-gray-400">
+                #{String(index + 1).padStart(3, "0")}
+              </span>
+              
+              <span className="font-bold text-gray-800 text-sm">
+                {item?.user?.username}
+              </span>
+              
+              <span className="text-gray-400 text-xs hidden sm:inline">•</span>
+              
+              <p className="text-xs text-gray-500 truncate max-w-xs flex items-center" title={item?.address}>
+                <span className="text-[#FFB703]"><MapPin size={18}/></span>
+                {item?.address}
+              </p>
+              
+              <div className="ml-auto flex items-center gap-3">
+              
+                {/* Payment badge */}
+                <span className="text-xs bg-gray-100 text-gray-600 border border-gray-200 rounded-full 
+                px-2.5 py-1 font-medium capitalize">
+                  {item.paymentMethod}
+                </span>
+              
+                {/* Total */}
+                <span className="text-sm font-bold text-green-600">
+                  ${item?.totalAmount}
+                </span>
+              
+                {/* Status select */}
+                <select
+                  name="status"
+                  value={item.status}
+                  onChange={(e) => handleStatusChange(item._id, e.target.value)}
+                  disabled={loading}
+                  className={`text-xs font-semibold rounded-full px-3 py-1.5 border cursor-pointer 
+                    focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors 
+                    ${statusStyles(item.status)}`}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Preparing">Preparing</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              
               </div>
+            
+            </div>
 
-              {/* Mobile View - Only visible on small devices */}
-              <div className="md:hidden space-y-3">
+            {/* ── Order Items ── */}
+            <div className="px-4 py-3">
+              
+              {/* Items preview (always visible) */}
+              <div className="space-y-2">
                 
-                {/* Customer Name */}
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-600">Customer:</span>
-                  <span className="font-medium">{item?.user?.username}</span>
-                </div>
-                
-                {/* Total Amount */}
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-600">Total:</span>
-                  <span className="text-lg font-bold text-green-600">
-                    ${item?.totalAmount}
-                  </span>
-                </div>
-                
-                {/* Payment Method */}
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-600">Payment:</span>
-                  <span className="capitalize px-2 py-1 rounded-full text-sm bg-gray-100">
-                    {item.paymentMethod}
-                  </span>
-                </div>
-                
-                {/* Status */}
-                <div className="flex justify-between items-center border-b pb-2">
-                  <span className="font-semibold text-gray-600">Status:</span>
-                  <select
-                    name="status"
-                    value={item.status}
-                    onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                    disabled={loading}
-                    className={`border rounded-md px-3 py-1.5 text-sm font-medium ${
-                      item.status === 'Pending' ? 'border-yellow-400 bg-yellow-50' :
-                      item.status === 'Preparing' ? 'border-blue-400 bg-blue-50' :
-                      'border-green-400 bg-green-50'
-                    }`}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Preparing">Preparing</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                </div>
-                
-                {/* Delivery Address */}
-                <div className="border-b pb-2">
-                  <span className="font-semibold text-gray-600 block mb-1">Delivery Address:</span>
-                  <p className="text-sm text-gray-700 break-words">{item?.address}</p>
-                </div>
-              </div>
+                {item.items
+                  .map((menu, i) => (
+                    <div key={i} className="flex items-center md:gap-3 gap-2 bg-gray-50 border border-gray-100 
+                    rounded-lg p-1 md:p-2">
 
-              {/* Menu Items - Responsive for all devices */}
-              <div className="mt-3">
-                
-                {/* Mobile menu items heading */}
-                <h3 className="font-semibold text-gray-700 mb-2 text-sm md:text-base block md:hidden">
-                  Order Items:
-                </h3>
-                
-                {item.items.map((menu, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 bg-gray-50 border rounded-lg p-2 my-2"
-                  >
-                    <img
-                      src={menu?.menuItem?.image}
-                      alt={menu?.menuItem?.name}
-                      className="w-12 h-12 sm:w-16 sm:h-16 rounded object-cover"
-                    />
-                    <div className="flex-1">
-                      <p className="font-semibold text-sm sm:text-base">
-                        {menu?.menuItem?.name}
-                      </p>
-                      <div className="flex gap-3 mt-1">
-                        <p className="text-xs sm:text-sm text-gray-600">
-                          QTY: {menu?.quantity}
+                      <img src={menu?.menuItem?.image} alt={menu?.menuItem?.name} className="w-12 h-12 rounded-lg 
+                      object-cover flex-shrink-0"/>
+                      
+                      {/* Quantity and Single Item Price */}
+                      <div className="flex-1">
+                      
+                        <p className="font-semibold text-sm text-gray-800 truncate max-w-[95px] md:max-w-full">
+                          {menu?.menuItem?.name}
                         </p>
-                        <p className="text-xs sm:text-sm text-gray-600">
-                          ${menu?.menuItem?.price}
-                        </p>
+                      
+                        <div className="flex items-center gap-2 md:gap-3 mt-0.5">
+                      
+                          <span className="text-xs text-gray-500">
+                            Qty: <span className="font-medium text-gray-700">{menu?.quantity}</span>
+                          </span>
+                      
+                          <span className="text-xs text-gray-400">•</span>
+                      
+                          <span className="text-xs text-gray-500">
+                            Price: <span className="font-medium text-gray-700">${menu?.menuItem?.price}</span>
+                          </span>
+                      
+                        </div>
+                      
                       </div>
-                      {/* Subtotal for mobile */}
-                      <p className="text-xs text-gray-500 mt-1 block sm:hidden">
-                        Subtotal: ${(menu?.quantity * menu?.menuItem?.price).toFixed(2)}
-                      </p>
+                      
+                      {/* Total Price */}
+                      <div className="text-right flex-shrink-0">
+                      
+                        <p className="text-sm font-bold text-gray-800">
+                          ${(menu?.quantity * menu?.menuItem?.price).toFixed(2)}
+                        </p>
+
+                        <p className="text-xs text-gray-400">subtotal</p>
+                      
+                      </div>
+                    
                     </div>
-                  </div>
-                ))}
+                  ))}
+              
               </div>
-            </li>
-          ))}
 
-        </ul>
+            </div>
 
-        {/* Empty State for mobile */}
+            {/* ── Order Footer ── */}
+            <div className="flex items-center justify-between px-4 py-2 bg-gray-50 border-t border-gray-100 
+            text-xs text-gray-400">
+              
+              <span>
+                <StatusDot status={item.status} />
+                {item.status}
+              </span>
+              
+              <span>{item.items.length} item{item.items.length !== 1 ? "s" : ""}</span>
+            
+            </div>
+
+          </div>
+
+        ))}
+
+        {/* ── Empty State ── */}
         {orders.length === 0 && (
-          <div className="text-center py-10">
-            <p className="text-gray-500">No orders found</p>
+          <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
+            <p className="text-gray-500 text-sm">No orders found</p>
           </div>
         )}
-  
-      </div>
 
+        {/* ── Count footer ── */}
+        {orders.length > 0 && (
+          <p className="text-xs text-gray-400 text-right">
+            Showing {orders.length} order{orders.length !== 1 ? "s" : ""}
+          </p>
+        )}
+
+      </div>
     </div>
-  
   );
 };
 
