@@ -2,9 +2,16 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { X, ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, totalPrice, navigate, axios, fetchCart } = useContext(AppContext);
+
+  const { cart, totalPrice, navigate, axios, fetchCart, user } = useContext(AppContext);
+
+  // If user is logged out, always redirect to sign-in.
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
@@ -144,7 +151,6 @@ const Cart = () => {
       </div>
 
     </div>
-  
   );
 };
 

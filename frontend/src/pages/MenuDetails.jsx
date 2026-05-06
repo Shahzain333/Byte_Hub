@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import { ArrowLeft, CheckCircle, XCircle, ShoppingCart } from 'lucide-react';
@@ -6,10 +6,23 @@ import { ArrowLeft, CheckCircle, XCircle, ShoppingCart } from 'lucide-react';
 const MenuDetails = () => {
 
   const { id } = useParams()
-  const { navigate, menus, addToCart } = useContext(AppContext)
-  const [quantity, setQuantity] = useState(1)
+  const { navigate, menus, addToCart, cart } = useContext(AppContext)
 
   const menu = menus.find((item) => item._id === id)
+
+  const totalAmountForThisItem = cart?.items?.reduce((sum, cartItem) => {
+    
+    const cartMenuId = cartItem?.menuItem?._id
+
+    if(cartMenuId && cartMenuId === menu?._id) {
+      const price = cartItem?.menuItem?.price || 0
+      const qty = cartItem?.quantity || 0
+      return sum + price * qty
+    }
+
+    return sum
+  
+  }, 0) || 0
 
   if(!menu) {
     return (
@@ -135,7 +148,9 @@ const MenuDetails = () => {
                 <span className="text-white text-lg font-semibold">
                   Total Amount
                 </span>
-                <span className="text-white text-3xl font-bold">$20</span>
+                <span className="text-white text-3xl font-bold">
+                  ${totalAmountForThisItem.toFixed(2)}
+                </span>
             
               </div>
 
