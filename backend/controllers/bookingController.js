@@ -1,5 +1,5 @@
 import BookingTable from "../models/bookingTable.js";
-import { sendReservationConfirmationEmail } from "../utils/sendTransactionalEmails.js";
+import { sendReservationStatusEmail } from "../utils/sendTransactionalEmails.js";
 
 export const createBooking = async(req,res) => {
     try {
@@ -35,13 +35,14 @@ export const createBooking = async(req,res) => {
 
         try {
         
-            await sendReservationConfirmationEmail({
+            await sendReservationStatusEmail({
                 customerName: booking.name,
                 customerEmail: booking.email,
                 numberOfPeople: booking.numberOfPeople,
                 date: booking.date,
                 time: booking.time,
                 note: booking.note,
+                status: "Pending"
             })
         
             emailSent = true
@@ -52,8 +53,8 @@ export const createBooking = async(req,res) => {
 
         res.status(201).json({
             message: emailSent
-                ? "Table booked successfully. Confirmation email sent."
-                : "Table booked successfully, but confirmation email could not be sent right now.",
+                ? "Table booking is Pending!. Confirmation email sent."
+                : "Table booking is Pending!, but confirmation email could not be sent right now.",
             success: true,
             booking,
             emailSent
@@ -108,7 +109,35 @@ export const updateBookingStatus = async(req,res) => {
 
         await booking.save()
 
-        res.status(200).json({ message: "Booking Status Updated", success: true, booking })
+       // Send status update email to the customer
+        let emailSent = false
+        
+        try {
+        
+            await sendReservationStatusEmail({
+                customerName: booking.name,
+                customerEmail: booking.email,
+                numberOfPeople: booking.numberOfPeople,
+                date: booking.date,
+                time: booking.time,
+                note: booking.note,
+                status,
+            })
+        
+            emailSent = true
+        
+        } catch (emailError) {
+            console.log("Reservation status email error:", emailError.message)
+        }
+ 
+        res.status(200).json({
+            message: emailSent
+                ? `Booking status updated to "${status}". Notification email sent to customer.`
+                : `Booking status updated to "${status}", but notification email could not be sent right now.`,
+            success: true,
+            booking,
+            emailSent
+        })
         
     } catch (error) {
         console.log("Error in Update Bookings : ", error.message)

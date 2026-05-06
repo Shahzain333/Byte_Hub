@@ -29,7 +29,7 @@ const Checkout = () => {
       }
 
     } catch (error) {
-      toast.error("Something Went Wrong!")
+      //toast.error("Something Went Wrong!")
       console.log("Error In Checkout In Frontend",error)
     }
   }

@@ -1,7 +1,7 @@
 import Order from '../models/order.js'
 import Cart from '../models/carts.js'
 import User from '../models/user.js'
-import { sendOrderConfirmationEmail } from '../utils/sendTransactionalEmails.js'
+import { sendOrderStatusEmail } from '../utils/sendTransactionalEmails.js'
 
 export const placeOrder = async(req,res) => {
     try {
@@ -44,13 +44,14 @@ export const placeOrder = async(req,res) => {
             
             if (user?.email) {
                 
-                await sendOrderConfirmationEmail({
+                await sendOrderStatusEmail({
                     customerName: user.username || "Customer",
                     customerEmail: user.email,
                     orderId: newOrder._id.toString(),
                     totalAmount: newOrder.totalAmount,
                     paymentMethod: newOrder.paymentMethod,
                     address: newOrder.address,
+                    status: "Pending"
                 })
 
                 emailSent = true
@@ -62,8 +63,8 @@ export const placeOrder = async(req,res) => {
 
         res.status(201).json({
             message: emailSent
-                ? "Order placed successfully. Confirmation email sent."
-                : "Order placed successfully, but confirmation email could not be sent right now.",
+                ? "Order placed in Pending. Confirmation email sent."
+                : "Order placed in Pending, but confirmation email could not be sent right now.",
             success: true,
             order: newOrder,
             emailSent
@@ -118,7 +119,38 @@ export const updateOrderStatus = async(req,res) => {
 
         await order.save()
 
-        res.status(200).json({ message: "Order Status Updated", success: true })
+        let emailSent = false
+
+        try {
+            
+            const user = await User.findById(order.user).select("username email") 
+            if (user?.email) {
+                
+                await sendOrderStatusEmail({
+                    customerName: user.username || "Customer",
+                    customerEmail: user.email,
+                    orderId: order._id.toString(),       
+                    totalAmount: order.totalAmount,       
+                    paymentMethod: order.paymentMethod,   
+                    address: order.address,              
+                    status
+                })
+
+                emailSent = true
+
+            }
+        } catch (emailError) {
+            console.log("Order status email error:", emailError.message)
+        }
+
+        res.status(200).json({                           // ✅ 200 instead of 201 (update, not create)
+            message: emailSent
+                ? `Order status updated to "${status}". Notification email sent to customer.`
+                : `Order status updated to "${status}", but notification email could not be sent right now.`,
+            success: true,
+            order,                                        // ✅ order instead of newOrder
+            emailSent
+        })
         
     } catch (error) {
         console.log("Error in Update Order Status : ", error.message)

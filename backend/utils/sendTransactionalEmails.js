@@ -11,13 +11,13 @@ const transporter = nodemailer.createTransport({
 })
 
 const requiredMailEnv = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS"]
-const hasRequiredMailConfig = requiredMailEnv.every((key) => Boolean(process.env[key]))
+const hasRequiredMailConfig = () => requiredMailEnv.every((key) => Boolean(process.env[key]))
 
 const getFromEmail = () => process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER || process.env.ADMIN_EMAIL
 
 export const sendContactConfirmationEmail = async ({ name, email, phone, subject, message }) => {
     
-    if (!hasRequiredMailConfig) {
+    if (!hasRequiredMailConfig()) {
         throw new Error("Mail configuration is missing in environment variables")
     }
 
@@ -55,63 +55,126 @@ export const sendContactConfirmationEmail = async ({ name, email, phone, subject
     })
 }
 
-export const sendReservationConfirmationEmail = async ({
+export const sendReservationStatusEmail = async ({
     customerName,
     customerEmail,
     numberOfPeople,
     date,
     time,
     note,
+    status,
 }) => {
-    
-    if (!hasRequiredMailConfig) {
+
+    if (!hasRequiredMailConfig()) {
         throw new Error("Mail configuration is missing in environment variables")
     }
 
     const fromEmail = getFromEmail()
 
+    const statusConfig = {
+        Approved: {
+            subject: "Your Reservation is Confirmed!",
+            heading: "Reservation Confirmed",
+            bodyLine: `Great news, ${customerName}! Your table reservation has been <strong>confirmed</strong>. We look forward to welcoming you.`,
+            footerLine: "See you soon!",
+        },
+        Cancelled: {
+            subject: "Your Reservation has been Cancelled",
+            heading: "Reservation Cancelled",
+            bodyLine: `Hi ${customerName}, unfortunately your table reservation has been <strong>cancelled</strong>. Please contact us if you have any questions or would like to make a new booking.`,
+            footerLine: "We hope to serve you another time.",
+        },
+        Pending: {
+            subject: "Your Reservation is Pending",
+            heading: "Reservation Pending",
+            bodyLine: `Hi ${customerName}, your reservation is currently <strong>pending</strong> review. We will notify you once it is confirmed.`,
+            footerLine: "Thank you for your patience.",
+        },
+    }
+
+    const config = statusConfig[status] || {
+        subject: `Reservation Status Update: ${status}`,
+        heading: "Reservation Update",
+        bodyLine: `Hi ${customerName}, your reservation status has been updated to <strong>${status}</strong>.`,
+        footerLine: "Thank you.",
+    }
+
     await transporter.sendMail({
         from: fromEmail,
         to: customerEmail,
-        subject: "Your table reservation is confirmed",
+        subject: config.subject,
         html: `
-            <h2>Reservation Confirmed</h2>
-            <p>Hi ${customerName}, your reservation request has been received.</p>
+            <h2>${config.heading}</h2>
+            <p>${config.bodyLine}</p>
+            <hr />
             <p><strong>Date:</strong> ${date}</p>
             <p><strong>Time:</strong> ${time}</p>
             <p><strong>Guests:</strong> ${numberOfPeople}</p>
             <p><strong>Note:</strong> ${note || "N/A"}</p>
-            <p>We look forward to serving you.</p>
+            <hr />
+            <p>${config.footerLine}</p>
         `,
     })
 }
 
-export const sendOrderConfirmationEmail = async ({
+export const sendOrderStatusEmail = async ({
     customerName,
     customerEmail,
     orderId,
     totalAmount,
     paymentMethod,
     address,
+    status,
 }) => {
-    if (!hasRequiredMailConfig) {
+
+    if (!hasRequiredMailConfig()) {
         throw new Error("Mail configuration is missing in environment variables")
     }
 
     const fromEmail = getFromEmail()
 
+    const statusConfig = {
+        Pending: {
+            subject: "Your Order is Pending",
+            heading: "Order Pending",
+            bodyLine: `Hi ${customerName}, your order is currently <strong>pending</strong> review. We will notify you once it is approved.`,
+            footerLine: "Thank you for your patience.",
+        },
+        Preparing: {
+            subject: "Your Order is Being Prepared! 👨‍🍳",
+            heading: "Order Being Prepared",
+            bodyLine: `Hi ${customerName}, great news! Your order is currently being <strong>prepared</strong> by our kitchen. Sit tight, it will be on its way soon.`,
+            footerLine: "We're cooking something delicious for you!",
+        },
+        Delivered: {
+            subject: "Your Order has been Delivered!",
+            heading: "Order Delivered",
+            bodyLine: `Hi ${customerName}, your order has been <strong>delivered</strong>. We hope you enjoy your meal!`,
+            footerLine: "Thank you for choosing us. We'd love to see you again!",
+        },
+    }
+
+    const config = statusConfig[status] || {
+        subject: `Order Status Update: ${status}`,
+        heading: "Order Update",
+        bodyLine: `Hi ${customerName}, your order status has been updated to <strong>${status}</strong>.`,
+        footerLine: "Thank you.",
+    }
+
     await transporter.sendMail({
         from: fromEmail,
         to: customerEmail,
-        subject: "Your order has been placed successfully",
+        subject: config.subject,
         html: `
-            <h2>Order Confirmation</h2>
-            <p>Hi ${customerName}, thanks for your order.</p>
+            <h2>${config.heading}</h2>
+            <p>${config.bodyLine}</p>
+            <hr />
             <p><strong>Order ID:</strong> ${orderId}</p>
             <p><strong>Total Amount:</strong> ${totalAmount}</p>
             <p><strong>Payment Method:</strong> ${paymentMethod}</p>
             <p><strong>Delivery Address:</strong> ${address}</p>
-            <p>We will start preparing your order shortly.</p>
+            <hr />
+            <p>${config.footerLine}</p>
         `,
     })
 }
