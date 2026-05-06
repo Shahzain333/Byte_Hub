@@ -21,8 +21,8 @@ const Contact = () => {
   const { axios } = useContext(AppContext)
   
   const getMapEmbedUrl = () => {
-    const lat = 24.819315733225455;  // ← your latitude
-    const lng =  67.01494154740129;  // ← your longitude
+    const lat = 24.826652652279787;  // ← your latitude
+    const lng =  67.0234831933299;  // ← your longitude
     return `https://www.google.com/maps?q=${lat},${lng}&z=16&output=embed`;
   };
 
@@ -56,11 +56,13 @@ const Contact = () => {
   
   };
 
+  const adminEmail = "adminbytehub@gmail.com";
+
   return (
     <div className="min-h-screen bg-gray-50">
 
       {/* Hero Section */}
-      <div className="relative h-70 bg-cover bg-center" style={{ backgroundImage: `url(${heroSectionContact})`,}}>
+      <div className="relative h-80 bg-cover bg-center" style={{ backgroundImage: `url(${heroSectionContact})`,}}>
 
         <div className="absolute inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center">
 
@@ -99,9 +101,9 @@ const Contact = () => {
                   </h3>
                   
                   <p className="text-gray-600">
-                    123 Restaurant Street
+                    Boat Basin Food Street, SC-6 Bank Rd,
                     <br />
-                    Food District, City 12345
+                    Block 5 Clifton, Karachi, 75600, Pakistan
                   </p>
               
                 </div>
@@ -116,8 +118,8 @@ const Contact = () => {
                 
                 <div>
                   <h3 className="font-semibold text-lg text-gray-800">Phone</h3>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
-                  <p className="text-gray-600">+1 (555) 987-6543</p>
+                  <a href="tel:+923333422776" className="text-gray-600">(+92) 333-3422776</a><br/>
+                  <a href="tel:+923333422776" className="text-gray-600">(+92) 301-7570550</a>
                 </div>
               
               </div>
@@ -130,8 +132,11 @@ const Contact = () => {
                 
                 <div>
                   <h3 className="font-semibold text-lg text-gray-800">Email</h3>
-                  <p className="text-gray-600">info@restaurant.com</p>
-                  <p className="text-gray-600">reservations@restaurant.com</p>
+                  <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent( adminEmail )}`}
+                    target="_blank" rel="noopener noreferrer" className="text-gray-600 uppercase hover:underline">
+                    {adminEmail}
+                  </a>
+                
                 </div>
               
               </div>
@@ -197,6 +202,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                   focus:ring-2 focus:ring-[#FFB703] "
                   placeholder="Your Name"
+                  required
                 />
               
               </div>
@@ -215,6 +221,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                   focus:ring-2 focus:ring-[#FFB703]"
                   placeholder="your@email.com"
+                  required
                 />
               
               </div>
@@ -232,7 +239,7 @@ const Contact = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                   focus:ring-2 focus:ring-[#FFB703] "
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="+92 123-4567890"
                 />
               
               </div>
@@ -251,6 +258,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                   focus:ring-2 focus:ring-[#FFB703] "
                   placeholder="Reservation, Inquiry, Feedback..."
+                  required
                 />
 
               </div>
@@ -269,6 +277,7 @@ const Contact = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                   focus:ring-2 focus:ring-[#FFB703] "
                   placeholder="Tell us what's on your mind..."
+                  required
                 ></textarea>
               
               </div>

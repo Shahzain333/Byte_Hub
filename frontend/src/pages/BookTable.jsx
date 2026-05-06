@@ -61,19 +61,19 @@ const BookTable = () => {
       </div>
 
       {/* Booking Table + Image */}
-      <div className="max-w-7xl mx-auto px-4 py-10 md:py-6">
+      <section className="max-w-7xl mx-auto px-4 py-10 md:py-6">
         
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
+        <div className="flex flex-col-reverse md:flex-row  justify-center items-center gap-6 lg:gap-8">
           
           {/* Image  */}
-          <div className="lg:w-1/2 rounded-lg overflow-hidden shadow-lg h-[320px] md:h-[590px]">
+          <div className="lg:w-1/2 rounded-lg overflow-hidden shadow-lg h-[300px] md:h-[420px] lg:h-[590px]">
           
             <img src={Reservation} alt="Table reservation" className="h-full w-full object-cover"/>
 
           </div>
 
           {/* Reservation Form */}
-          <div className="lg:w-7/12 bg-white shadow-lg rounded-2xl p-6 md:p-8">
+          <div className="w-full md:w-11/12 lg:w-7/12 bg-white shadow-lg rounded-2xl p-4 md:p-4 lg:p-8">
             
             <form onSubmit={handleSubmit} className="space-y-4">
       
@@ -144,7 +144,7 @@ const BookTable = () => {
 
         </div>
       
-      </div>
+      </section>
 
     </div>
     
