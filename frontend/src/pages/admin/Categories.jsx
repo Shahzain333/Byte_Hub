@@ -48,11 +48,12 @@ const Categories = () => {
           
             </thead>
           
-            <tbody className="divide-y divide-gray-100 bg-white">
+            <tbody className=" bg-white">
               
               {categories.map((item, index) => (
               
-                <tr key={item._id} className={`transition-colors hover:bg-gray-50 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/40'}`}>
+                <tr key={item._id} className={`transition-colors hover:bg-gray-50 ${index % 2 === 0 ? 
+                'bg-white' : 'bg-gray-50/40'}`}>
 
                   {/* Image */}
                   <td className="pl-2 py-3">

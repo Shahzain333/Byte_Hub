@@ -29,11 +29,6 @@ const contactSchema = new Schema({
         required: true,
         trim: true
     },
-    status: {
-        type: String,
-        enum: ["Unread", "Read"],
-        default: "Unread"
-    },
 }, { timestamps: true })
 
 const Contact = model('Contact', contactSchema)

@@ -47,13 +47,13 @@ const Contacts = () => {
   }, []);
 
   return (
-    <div className="px-3 sm:px-6 py-6">
+    <div className="px-1 md:px-6 py-2 md:py-6">
 
       <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">
         All Contacts
       </h1>
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-4xl mx-auto">
 
         {/* Desktop Table */}
         <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
@@ -67,7 +67,6 @@ const Contacts = () => {
                 <th className="px-4 py-3 font-semibold w-32">Phone</th>
                 <th className="px-4 py-3 font-semibold w-32">Subject</th>
                 <th className="px-4 py-3 font-semibold">Message</th>
-                <th className="px-4 py-3 font-semibold w-28 text-center">Status</th>
               </tr>
             </thead>
             
@@ -109,24 +108,6 @@ const Contacts = () => {
                     </span>
                   </td>
 
-                  {/* Status */}
-                  <td className="px-4 py-3 text-center">
-                    <select
-                      name="status"
-                      value={item.status}
-                      onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                      disabled={loading}
-                      className={`text-xs font-semibold rounded-full px-3 py-1.5 border cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-1 transition-colors ${
-                        item.status === 'Read'
-                          ? 'border-green-300 bg-green-50 text-green-700 focus:ring-green-300'
-                          : 'border-red-300 bg-red-50 text-red-700 focus:ring-red-300'
-                      }`}
-                    >
-                      <option value="Unread">Unread</option>
-                      <option value="Read">Read</option>
-                    </select>
-                  </td>
-
                 </tr>
               
               ))}
@@ -144,24 +125,9 @@ const Contacts = () => {
             
             <li key={item._id} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-2">
 
-              <div className="flex items-center justify-between">
+              <div className="">
               
                 <span className="font-semibold text-gray-800 text-base">{item?.name}</span>
-              
-                <select
-                  name="status"
-                  value={item.status}
-                  onChange={(e) => handleStatusChange(item._id, e.target.value)}
-                  disabled={loading}
-                  className={`text-xs font-semibold rounded-full px-3 py-1 border cursor-pointer focus:outline-none ${
-                    item.status === 'Read'
-                      ? 'border-green-300 bg-green-50 text-green-700'
-                      : 'border-red-300 bg-red-50 text-red-700'
-                  }`}
-                >
-                  <option value="Unread">Unread</option>
-                  <option value="Read">Read</option>
-                </select>
 
               </div>
 

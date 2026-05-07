@@ -140,13 +140,16 @@ const AdminLayout = () => {
             {/* footer */}
             <footer className='p-4 border-t border-gray-100'>
            
-              <div className='flex items-center text-sm text-gray-500'>
+              <div className='flex items-center gap-2 text-sm text-gray-500'>
            
-                <div className='w-8 h-8 bg-gray-300 rounded-full mr-3'></div>
+                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center
+                flex-shrink-0 text-amber-600 font-bold text-sm">
+                  {('A')[0].toUpperCase()}
+                </div>
 
                 <div className=''>
                   <div className='font-medium text-gray-900'>Admin User</div>
-                  <div>admin@bytehub.com</div>
+                  <div>adminbytehub@gmail.com</div>
                 </div>
            
               </div>
