@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import LoadingState from '../../components/LoadingState'
 
 const Categories = () => {
-  
+
   const { categories, fetchCategories, axios, loading } = useContext(AppContext)
 
   const deleteCategory = async (id) => {

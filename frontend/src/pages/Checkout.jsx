@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast'
 
 const Checkout = () => {
 
-  const { axios, navigate, totalPrice, fetchCart } = useContext(AppContext)
+  const { axios, navigate, totalPrice, fetchCart, loading, setLoading } = useContext(AppContext)
   const [address, setAddress] = useState("")
   const [paymentMethod, setPaymentMethod] = useState("Pay at hotel")
 
@@ -15,6 +15,7 @@ const Checkout = () => {
     }
 
     try {
+      setLoading(true)
       const { data } = await axios.post('/api/order/place', {
         address,
         paymentMethod
@@ -31,6 +32,8 @@ const Checkout = () => {
     } catch (error) {
       //toast.error("Something Went Wrong!")
       console.log("Error In Checkout In Frontend",error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -96,9 +99,15 @@ const Checkout = () => {
 
         </div>
 
-        <button onClick={handleCheckOut} className="mt-6 bg-[#FFB703] text-white py-3 rounded-lg 
+        <button onClick={handleCheckOut} disabled={loading} className="mt-6 bg-[#FFB703] text-white py-3 rounded-lg 
         hover:bg-[#E09A05] transition font-medium cursor-pointer">
-          Confirm Order
+          { loading ?
+            <div className='flex items-center justify-center gap-2'>
+              <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+              Confirm Order...
+            </div> : 
+            "Confirm Order"
+          }
         </button>
         
       </div>

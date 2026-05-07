@@ -6,7 +6,7 @@ import Reservation from '../assets/Reservation.jpg'
 
 const BookTable = () => {
 
-  const { axios, navigate } = useContext(AppContext)
+  const { axios, navigate, loading, setLoading } = useContext(AppContext)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +25,7 @@ const BookTable = () => {
       e.preventDefault();
 
       try {
-      
+        setLoading(true)
         const { data } = await axios.post("/api/booking/create", formData);
         if (data.success) {
           toast.success(data.message);
@@ -39,6 +39,8 @@ const BookTable = () => {
         navigate('/login')
         //console.log(error);
         //toast.error("Something went wrong!");
+      } finally {
+        setLoading(false)
       }
     
     };
@@ -133,9 +135,15 @@ const BookTable = () => {
               rows="3" className="border border-gray-300 rounded-lg p-3 w-full focus:ring-2 focus:ring-[#FFB703] 
               focus:outline-none resize-none"></textarea> */}
 
-              <button type="submit" className="w-full bg-[#FFB703] text-white py-3 rounded-lg hover:bg-[#E09A05]
+              <button type="submit" disabled={loading} className="w-full bg-[#FFB703] text-white py-3 rounded-lg hover:bg-[#E09A05]
               transition font-medium">
-                Confirm Booking
+                { loading ?
+                  <div className='flex items-center justify-center gap-2'>
+                    <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                    Confirm Booking...
+                  </div> : 
+                  "Confirm Booking"
+                }
               </button>
 
             </form>

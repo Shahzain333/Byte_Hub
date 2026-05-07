@@ -108,7 +108,13 @@ const Signup = () => {
 
           <button type="submit" className="mt-5 w-full h-11 rounded-full text-white bg-[#FFB703] 
           hover:bg-[#E09A05] transition-colors cursor-pointer font-medium shadow-sm">
-            {loading ? "Loading..." : "Create Account" }
+            { loading ?
+              <div className='flex items-center justify-center gap-2'>
+                <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                Creating Account...
+              </div> : 
+              "Creat Account"
+            }
           </button>
 
           <p className="text-zinc-500 text-sm mt-3 mb-10">

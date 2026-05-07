@@ -17,8 +17,7 @@ const Contact = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [submitted, setSubmitted] = useState(false);
-  const { axios } = useContext(AppContext)
+  const { axios, loading, setLoading } = useContext(AppContext)
   
   const getMapEmbedUrl = () => {
     const lat = 24.826652652279787;  // ← your latitude
@@ -37,7 +36,7 @@ const Contact = () => {
     e.preventDefault()
 
     try {
-      setSubmitted(true);
+      setLoading(true)
       
       const { data } = await axios.post("/api/contact/create", formData);
 
@@ -51,7 +50,7 @@ const Contact = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || "Something went wrong.");
     } finally {
-      setSubmitted(false);
+      setLoading(false);
     }
   
   };
@@ -282,10 +281,18 @@ const Contact = () => {
               
               </div>
 
-              <button type="submit" disabled={submitted} className="w-full bg-[#FFB703]  hover:bg-[#E09A05] text-white 
+              <button type="submit" disabled={loading} className="w-full bg-[#FFB703]  hover:bg-[#E09A05] text-white 
               font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center space-x-2">
-                <Send className="w-5 h-5" />
-                <span>Send Message</span>
+                { loading ?
+                  <div className='flex items-center justify-center gap-2'>
+                    <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                    Send Messaging...
+                  </div> : 
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Send Message</span>
+                  </>
+                }
               </button>
 
             </form>

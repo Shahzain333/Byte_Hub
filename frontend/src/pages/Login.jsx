@@ -95,7 +95,13 @@ const Login = () => {
             className="mt-5 w-full h-11 rounded-full bg-[#FFB703] hover:bg-[#E09A05] text-white 
              cursor-pointer transition-colors font-medium shadow-sm"
           >
-            {loading ? "Loading..." : "Login"}
+            { loading ?
+              <div className='flex items-center justify-center gap-2'>
+                <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                Loading...
+              </div> : 
+              "Login"
+            }
           </button>
 
           <p className="text-zinc-500 text-sm mt-3 mb-10">
