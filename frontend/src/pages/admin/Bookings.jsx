@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { toast } from "react-hot-toast";
 import { User } from 'lucide-react'
+import LoadingState from '../../components/LoadingState'
 
 const StatusBadge = ({ status }) => {
 
@@ -22,6 +23,7 @@ const Bookings = () => {
 
   const fetchBookings = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get("/api/booking/bookings");
       if (data.success) {
         setBookings(data.bookings);
@@ -30,6 +32,8 @@ const Bookings = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -62,6 +66,8 @@ const Bookings = () => {
   useEffect(() => {
     if (admin) fetchBookings();
   }, []);
+
+  if (loading) return <LoadingState label="Loading Bookings..." />
 
   return (
     <div className="px-3 sm:px-6 py-2 md:py-6">

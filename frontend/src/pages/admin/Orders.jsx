@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import { toast } from "react-hot-toast";
 import { MapPin } from 'lucide-react'
+import LoadingState from "../../components/LoadingState";
 
 const statusStyles = (status) => {
   switch (status) {
@@ -29,11 +30,14 @@ const Orders = () => {
 
   const fetchOrders = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get("/api/order/orders");
       if (data.success) setOrders(data.orders);
       else console.log(data.message);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -50,10 +54,11 @@ const Orders = () => {
     }
   };
 
-
   useEffect(() => {
     if (admin) fetchOrders();
   }, []);
+
+   if (loading) return <LoadingState label="Loading Orders..." />
 
   return (
     <div className="px-3 sm:px-6 py-2 md:py-6">

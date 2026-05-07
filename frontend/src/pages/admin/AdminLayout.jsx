@@ -5,6 +5,7 @@ import { useLocation, Link, Outlet } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { CiMenuFries } from 'react-icons/ci'
 import { MdOutlineClose } from "react-icons/md";
+import Logo from '../../assets/BYTE HUB.png'
 
 const AdminLayout = () => {
 
@@ -108,13 +109,12 @@ const AdminLayout = () => {
           <div className='flex flex-col h-full'>
           
             {/* Logo Header */}
-            <div className='mt-17 lg:mt-10 mx-4 flex items-center justify-center h-16 px-4 
-            bg-[#E09A05] text-white rounded-lg'>
-              <h1 className='text-xl font-bold'>Admin Panel</h1>
+            <div className="pl-14 sm:pl-12 border-b border-gray-100">
+              <img src={Logo} alt="Logo" className="w-36 h-30 md:h-40 object-contain"/>
             </div>
 
             {/* Navigation */}
-            <nav className='flex-1 px-4 py-6 space-y-2 overflow-y-auto lg:pt-10'>
+            <nav className='flex-1 px-4 py-6 space-y-2 overflow-y-auto pt-2 lg:pt-4'>
               {
                 menuItems.map((item) => {
 
@@ -183,8 +183,8 @@ const AdminLayout = () => {
             </h2>
 
             <div className='flex items-center space-x-4'>
-              <button onClick={logout} className='bg-red-500 hover:bg-red-600 text-white md:px-6 px-3
-                py-2 rounded-lg transition-colors font-semibold cursor-pointer'>
+              <button onClick={logout} className='bg-red-500 hover:bg-red-600 text-white md:px-6 px-2
+                md:py-2 py-1.5 rounded-lg transition-colors font-semibold cursor-pointer'>
                   Logout
               </button>  
             </div>

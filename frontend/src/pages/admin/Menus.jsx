@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import { Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import LoadingState from '../../components/LoadingState'
 
 const Menus = () => {
-  const { menus, fetchMenus, axios } = useContext(AppContext)
+  
+  const { menus, fetchMenus, axios, loading } = useContext(AppContext)
 
   const deleteMenu = async (id) => {
     try {
@@ -22,6 +24,12 @@ const Menus = () => {
       toast.error(error.response.data.message)
       console.log("Error in Frontend Menus, Delete Menu", error)
     }
+  }
+
+  if (loading) {
+    return (
+      <LoadingState label={"Loading Menus...."} />
+    )
   }
 
   return (

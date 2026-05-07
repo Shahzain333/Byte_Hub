@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
+import LoadingState from '../../components/LoadingState'
 
 const Contacts = () => {
 
@@ -9,6 +10,7 @@ const Contacts = () => {
 
   const fetchContacts = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get("/api/contact/all");
       if (data.success) {
         setContacts(data.contacts);
@@ -17,6 +19,8 @@ const Contacts = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -45,6 +49,8 @@ const Contacts = () => {
       fetchContacts();
     }
   }, []);
+
+   if (loading) return <LoadingState label="Loading Contacts..." />
 
   return (
     <div className="px-1 md:px-6 py-2 md:py-6">

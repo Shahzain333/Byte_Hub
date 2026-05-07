@@ -37,7 +37,7 @@ const AppContextProvider = ({ children }) => {
 
     const fetchCategories = async () => {
         try {
-            
+            setLoading(true)
             const { data } = await axios.get('/api/category/all')
             //console.log("Data", data)
             if(data.success) {
@@ -50,12 +50,14 @@ const AppContextProvider = ({ children }) => {
         } catch (error) {
             // toast.error(error.response.data.message || "Something went wrong!")
             console.log("Error in Frontend AppContext fetch Categories", error)
+        } finally {
+            setLoading(false)
         }
     }
 
     const fetchMenus = async () => {
         try {
-            
+            setLoading(true)
             const { data } = await axios.get('/api/menu/all')
             //console.log("Data", data)
             if(data.success) {
@@ -68,6 +70,8 @@ const AppContextProvider = ({ children }) => {
         } catch (error) {
             // toast.error(error.response.data.message || "Something went wrong!")
             console.log("Error in Frontend AppContext fetch Menus", error)
+        } finally {
+            setLoading(false)
         }
     }
 

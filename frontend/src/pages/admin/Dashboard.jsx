@@ -3,7 +3,7 @@ import { AppContext } from '../../context/AppContext'
 import { ShoppingCart, BookOpen, MessageSquare, Grid3X3, UtensilsCrossed, TrendingUp, Clock, CheckCircle2,
   XCircle, AlertCircle, DollarSign, Users, ArrowUpRight
 } from 'lucide-react'
-import LodaingState from '../../components/LodaingState'
+import LoadingState from '../../components/LoadingState'
 
 /* ─── counter ─── */
 
@@ -232,7 +232,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <LodaingState label={"Loading Dashboard...."} />
+      <LoadingState label={"Loading Dashboard...."} />
     )
   }
 

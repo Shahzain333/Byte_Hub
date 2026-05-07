@@ -117,7 +117,13 @@ const AddCategory = () => {
 
         <button className='px-8 py-3 text-white cursor-pointer bg-[#E09A05] rounded-lg
         hover:bg-[#E09A05] transition-colors font-medium'>
-          { loading ? "Adding..." : "Add Category"}
+          { loading ?
+          <div className='flex items-center justify-center gap-2'>
+            <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+            Adding...
+          </div> : 
+          "Add Category"
+          }
         </button>
 
       </form>
