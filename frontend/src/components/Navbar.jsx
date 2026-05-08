@@ -59,7 +59,7 @@ const Navbar = () => {
     }, [isMenuOpen])
 
   return (
-    <nav className='bg-cyan-50 shadow-md sticky top-0 z-50 py-1 md:py-3'>
+    <nav className='bg-gradient-to-b from-gray-50 to-white shadow-md sticky top-0 z-50 py-1 md:py-3'>
 
         <div className='max-w-7xl mx-auto px-3 sm:px-6 lg:px-8'>
 

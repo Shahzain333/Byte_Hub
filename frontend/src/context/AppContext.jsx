@@ -18,6 +18,7 @@ const AppContextProvider = ({ children }) => {
     const [menus, setMenus] = useState([])
     const [cart, setCart] = useState([])
     const [totalPrice,setTotalPrice] = useState(0)
+    const [dataLoading, setDataLoading] = useState(false)
 
     const isAuth = async () => {
         try {
@@ -37,7 +38,7 @@ const AppContextProvider = ({ children }) => {
 
     const fetchCategories = async () => {
         try {
-            setLoading(true)
+            setDataLoading(true)
             const { data } = await axios.get('/api/category/all')
             //console.log("Data", data)
             if(data.success) {
@@ -51,13 +52,13 @@ const AppContextProvider = ({ children }) => {
             // toast.error(error.response.data.message || "Something went wrong!")
             console.log("Error in Frontend AppContext fetch Categories", error)
         } finally {
-            setLoading(false)
+            setDataLoading(false)
         }
     }
 
     const fetchMenus = async () => {
         try {
-            setLoading(true)
+            setDataLoading(true)
             const { data } = await axios.get('/api/menu/all')
             //console.log("Data", data)
             if(data.success) {
@@ -71,7 +72,7 @@ const AppContextProvider = ({ children }) => {
             // toast.error(error.response.data.message || "Something went wrong!")
             console.log("Error in Frontend AppContext fetch Menus", error)
         } finally {
-            setLoading(false)
+            setDataLoading(false)
         }
     }
 
@@ -92,7 +93,7 @@ const AppContextProvider = ({ children }) => {
             }
 
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong to Add To Cart!")
+            //toast.error(error.response.data.message || "Something went wrong to Add To Cart!")
             console.log("Error in Frontend AppContext addToCart", error)
         }
     }
@@ -150,7 +151,8 @@ const AppContextProvider = ({ children }) => {
     }, [])
 
     const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin,
-        categories, fetchCategories, menus, fetchMenus, addToCart, fetchCart, totalPrice, cartCount, cart }
+        categories, fetchCategories, menus, fetchMenus, addToCart, fetchCart, totalPrice, 
+        cartCount, cart, dataLoading }
 
     
     return (    

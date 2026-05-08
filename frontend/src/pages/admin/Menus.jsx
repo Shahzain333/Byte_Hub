@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState , useEffect} from 'react'
 import { AppContext } from '../../context/AppContext'
 import { Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -6,7 +6,7 @@ import LoadingState from '../../components/LoadingState'
 
 const Menus = () => {
   
-  const { menus, fetchMenus, axios, loading } = useContext(AppContext)
+  const { menus, fetchMenus, axios, dataLoading } = useContext(AppContext)
 
   const deleteMenu = async (id) => {
     try {
@@ -26,7 +26,11 @@ const Menus = () => {
     }
   }
 
-  if (loading) {
+  useEffect(() => {
+    fetchMenus()
+  }, [])
+
+  if (dataLoading) {
     return (
       <LoadingState label={"Loading Menus...."} />
     )

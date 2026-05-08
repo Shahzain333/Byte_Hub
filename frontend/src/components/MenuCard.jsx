@@ -4,39 +4,33 @@ import { ShoppingCart } from 'lucide-react'
 
 const MenuCard = ({ menu }) => {
 
-  const { navigate, addToCart } = useContext(AppContext)
+  const { navigate, addToCart, user } = useContext(AppContext)
   
   return (
     <div className='bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all 
-    duration-300 group'>
+    duration-300 group flex flex-col'>
 
-      {/* Image Section  */}
+      {/* Image Section */}
       <div onClick={() => navigate(`/menu-details/${menu._id}`)} className='relative h-56 overflow-hidden 
-      cursor-pointer'>
+      cursor-pointer flex-shrink-0'>  {/* ← add flex-shrink-0 */}
 
         <img src={menu.image} alt={menu.name} className='w-full h-full object-cover 
         group-hover:scale-110 transition-transform duration-500'/>
 
-        {/* Overlay on hover */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 
         opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-
-          {/* Availability Badge */}
           {!menu.isAvailable && (
-
             <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full 
             text-sm font-semibold">
               Unavailable
             </div>
-          
           )}
-
         </div>
 
       </div>
 
       {/* Content Section */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-1">  
       
         <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-1">
           {menu.name}
@@ -46,23 +40,29 @@ const MenuCard = ({ menu }) => {
           {menu.description}
         </p>
 
-        {/* Price and Add to Cart */}
-        <div className="flex items-center justify-between mt-4">
+        {/* Price and Add to Cart — pinned to bottom */}
+        <div className="flex items-center justify-between mt-auto">  {/* ← mt-4 → mt-auto */}
       
           <div>
             <p className="text-2xl font-bold text-gray-900">${menu.price}</p>
           </div>
       
-          <button onClick={() => addToCart(menu._id)} disabled={!menu.isAvailable} className={`flex items-center 
-          gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${menu.isAvailable
-                ? `bg-[#FFB703] hover:bg-[#E09A05] text-white hover:scale-105 hover:shadow-lg 
-                active:scale-95`
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}>
-            <ShoppingCart className="w-4 h-4" />{" "}
-            <span className="text-sm">Add</span>
-
-          </button>
+          {user ? (
+            <button onClick={() => addToCart(menu._id)} disabled={!menu.isAvailable} className={`flex items-center 
+            gap-2 px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${menu.isAvailable
+                  ? `bg-[#FFB703] hover:bg-[#E09A05] text-white hover:scale-105 hover:shadow-lg active:scale-95`
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}>
+              <ShoppingCart className="w-4 h-4" />
+              <span className="text-sm">Add</span>
+            </button>
+          ) : (
+            <button disabled className="flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold 
+            transition-all duration-300 bg-[#FFB703] text-white cursor-not-allowed opacity-70">
+              <ShoppingCart className="w-4 h-4" />
+              <span className="text-sm">Add</span>
+            </button>
+          )}
       
         </div>
       

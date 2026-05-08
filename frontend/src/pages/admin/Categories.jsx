@@ -6,7 +6,7 @@ import LoadingState from '../../components/LoadingState'
 
 const Categories = () => {
 
-  const { categories, fetchCategories, axios, loading } = useContext(AppContext)
+  const { categories, fetchCategories, axios, dataLoading } = useContext(AppContext)
 
   const deleteCategory = async (id) => {
     try {
@@ -26,7 +26,11 @@ const Categories = () => {
     }
   }
 
-   if (loading) return <LoadingState label="Loading Categories..." />
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  if (dataLoading) return <LoadingState label="Loading Categories..." />
 
   return (
     <div className="px-1 sm:px-6 py-2 md:py-6">

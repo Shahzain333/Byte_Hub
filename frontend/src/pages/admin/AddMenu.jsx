@@ -87,9 +87,9 @@ const AddMenu = () => {
   }
 
   return (
-    <div className='grid lg:grid-cols-2 grid-cols-1 gap-5'>
+    <div className='grid lg:grid-cols-2 grid-cols-1 gap-5 lg:gap-10'>
       
-      <form onSubmit={handleSubmit} className='max-w-2xl w-full flex flex-col gap-5'>
+      <form onSubmit={handleSubmit} className=' flex flex-col gap-5'>
 
         <div className=''>
         
@@ -244,7 +244,7 @@ const AddMenu = () => {
       
       </form>
 
-      { preview && <img src={preview} alt='preview' className='md:w-full w-[300px] rounded-lg'/> }
+      { preview && <img src={preview} alt='preview' className='w-full lg:h-[565px] h-[400px] rounded-lg'/> }
 
     </div>
   )

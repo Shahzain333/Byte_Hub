@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import Menus from '../components/Menus'
 import { AppContext } from '../context/AppContext'
 import MenuCard from '../components/MenuCard'
 import { Search, X } from 'lucide-react'
 import heroSectionMenu from '../assets/heroSectionMenu.jpg'
+import { useLocation } from 'react-router-dom'
 
 const Menu = () => {
   
-  const { menus } = useContext(AppContext)
+  const { menus, categories } = useContext(AppContext)
   const [searchQuery, setSearchQuery] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("All")
   const [filteredMenus, setFilteredMenus] = useState([])
+  const location = useLocation()
 
   const handleClearSearch = () => {
     setSearchQuery("")
@@ -17,28 +19,35 @@ const Menu = () => {
 
   useEffect(() => {
 
-    if(searchQuery === "") {
-      
-      setFilteredMenus(menus)
+    let result = menus
 
-    } else {
-      
-      const filtered = menus.filter((menu) => 
-        menu.name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()))
-      
-      setFilteredMenus(filtered)
-
+    // 1. Filter by category
+    if (selectedCategory !== "All") {
+      result = result.filter((menu) => menu.category?.name === selectedCategory)
     }
 
-  }, [searchQuery, menus])
+    // 2. Filter by search query
+    if (searchQuery !== "") {
+      result = result.filter((menu) =>
+        menu.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    }
+
+    setFilteredMenus(result)
+
+  }, [searchQuery, menus, selectedCategory])
+
+  useEffect(() => {
+    if(location.state?.category) {
+      setSelectedCategory(location.state.category)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf0] via-white to-gray-50">
       
       {/* Hero Section And Search Box */}
-      <div className="relative isolate overflow-hidden bg-center bg-cover" style={{ backgroundImage:  `url(${heroSectionMenu})` }}>
+      <div className="relative isolate overflow-hidden bg-center bg-cover" style={{ backgroundImage: `url(${heroSectionMenu})` }}>
 
         <div className="absolute inset-0 bg-black/60"></div>
         
@@ -59,9 +68,10 @@ const Menu = () => {
               served with care.
             </p>
 
+            {/* Search Box */}
             <div className="mx-auto mt-8 w-full max-w-2xl">
               
-              <div className="relative rounded-full border border-[#FFB703] focus:outline-[#E09A05]  p-1 shadow-xl 
+              <div className="relative rounded-full border border-[#FFB703] p-1 shadow-xl 
               backdrop-blur bg-transparent">
               
                 <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-[#FFB703]" />
@@ -71,8 +81,8 @@ const Menu = () => {
                   placeholder="Search for your favorite dish..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-full bg-transparent py-3 pl-12 pr-12 text-sm text-white/90 placeholder:text-white/60 
-                  focus:outline-none sm:text-base"
+                  className="w-full rounded-full bg-transparent py-3 pl-12 pr-12 text-sm text-white/90 
+                  placeholder:text-white/60 focus:outline-none sm:text-base"
                 />
               
                 {searchQuery && (
@@ -80,8 +90,8 @@ const Menu = () => {
                     type="button"
                     aria-label="Clear search"
                     onClick={handleClearSearch}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-[#FFB703] transition-colors 
-                    hover:text-[#E09A05]"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-[#FFB703] 
+                    transition-colors hover:text-[#E09A05]"
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -91,23 +101,20 @@ const Menu = () => {
             
             </div>
 
+            {/* Result count */}
             <p className="mt-5 text-sm text-gray-100 sm:text-base">
               {searchQuery ? (
                 <>
                   Found{" "}
-                  <span className="font-semibold text-[#FFB703]">
-                    {filteredMenus.length}
-                  </span>{" "}
+                  <span className="font-semibold text-[#FFB703]">{filteredMenus.length}</span>{" "}
                   {filteredMenus.length === 1 ? "result" : "results"} for{" "}
                   <span className="font-medium text-white">"{searchQuery}"</span>
                 </>
               ) : (
                 <>
                   Showing{" "}
-                  <span className="font-semibold text-[#FFB703]">
-                    {filteredMenus.length}
-                  </span>{" "}
-                  {filteredMenus.length === 1 ? "dish" : "dishes"}
+                  <span className="font-semibold text-[#FFB703]">{filteredMenus.length}</span>{" "}
+                  {selectedCategory === "All" ? (filteredMenus.length === 1 ? "dish" : "dishes") : selectedCategory}
                 </>
               )}
             </p>
@@ -118,35 +125,96 @@ const Menu = () => {
       
       </div>
 
-      {/*Menu Cards  */}
-      <div className="container mx-auto px-4 py-10 sm:py-12">
+      {/* ── Category Filter Pills ── */}
+      <div className="sticky top-0 z-10 bg-white/90">
+
+        <div className="container mx-auto py-4">
+      
+          <div className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide ">
+
+            {/* All pill */}
+            <button onClick={() => { setSelectedCategory("All"); setSearchQuery("") }}
+              className={`flex-shrink-0 px-5 py-1.5 rounded-full text-lg font-semibold border transition-all 
+                duration-900 ${selectedCategory === "All" ? "bg-[#FFB703] text-white border-[#FFB703] shadow-sm"
+                  : "bg-white text-gray-600 border-gray-200 hover:border-[#FFB703] hover:text-[#FFB703]"
+                }`}>
+              All
+            </button>
+
+            {/* Dynamic category pills from context */}
+            {categories.map((cat) => (
+            
+              <button key={cat._id} onClick={() => { setSelectedCategory(cat.name); setSearchQuery("") }}
+                className={`flex-shrink-0 flex items-center gap-2 px-5 py-1.5 rounded-full text-lg font-semibold 
+                border transition-all duration-900 ${selectedCategory === cat.name
+                    ? "bg-[#FFB703] text-white border-[#FFB703] shadow-sm"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-[#FFB703] hover:text-[#FFB703]"
+                  }`}>
+
+                {cat.image && (
+                  <img src={cat.image} alt={cat.name} className="w-8 h-8 rounded-full object-cover" />
+                )}
+                {cat.name}
+              
+              </button>
+
+            ))}
+
+          </div>
+
+        </div>
+      
+      </div>
+
+      {/* ── Menu Cards ── */}
+      <div className="container mx-auto px-4 py-6">
+      
         {filteredMenus.length > 0 ? (
+          
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          
             {filteredMenus.map((menu) => (
               <MenuCard menu={menu} key={menu._id} />
             ))}
+          
           </div>
         ) : (
+          
           <div className="mx-auto mt-6 max-w-xl rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm">
+          
             <p className="text-lg font-semibold text-gray-800">
-              No dishes found for "{searchQuery}"
+              {searchQuery ? `No dishes found for "${searchQuery}"` : `No dishes in "${selectedCategory}"`}
             </p>
+          
             <p className="mt-2 text-sm text-gray-500">
-              Try another keyword or clear the search to view all menu items.
+              Try another keyword or browse a different category.
             </p>
-            <button
-              type="button"
-              onClick={handleClearSearch}
-              className="mt-5 rounded-full bg-[#f59e0b] px-6 py-3 font-semibold text-white transition-colors duration-300 hover:bg-[#d97706]"
-            >
-              Clear Search
-            </button>
+          
+            <div className="flex items-center justify-center gap-3 mt-5">
+          
+              {searchQuery && (
+                <button type="button" onClick={handleClearSearch} className="rounded-full bg-[#f59e0b] px-6 py-2.5 
+                font-semibold text-white transition-colors duration-300 hover:bg-[#d97706]">
+                  Clear Search
+                </button>
+              )}
+              
+              {selectedCategory !== "All" && (
+                <button type="button" onClick={() => setSelectedCategory("All")} className="rounded-full border 
+                border-[#f59e0b] px-6 py-2.5 font-semibold text-[#f59e0b] transition-colors duration-300 hover:bg-[#fff8e1]">
+                  View All
+                </button>
+              )}
+        
+            </div>
+        
           </div>
+        
         )}
+
       </div>
 
     </div>
-  
   )
 }
 

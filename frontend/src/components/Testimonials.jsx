@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { HiBadgeCheck } from "react-icons/hi";
+import { AppContext } from '../context/AppContext';
+import LoadingState from '../components/LoadingState'
 
 const Testimonials = () => {
 
-    const cardsData = [
+    const { axios, loading, setLoading } = useContext(AppContext)
+    const [contacts, setContacts] = useState([]);
+
+    // Default avatar fallback
+    const DEFAULT_AVATAR = 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200';
+
+    const fetchContacts = async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.get("/api/contact/all");
+            if (data.success) {
+                setContacts(data.contacts);
+            } else {
+                console.log(data.message);
+            }
+            } catch (error) {
+            console.log(error);
+            } finally {
+            setLoading(false)
+        }
+    };
+
+    useEffect(() => {
+        fetchContacts();
+    }, []);
+    
+    const staticCards = [
         {
             image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200',
             name: 'Briar Martin',
@@ -33,6 +61,23 @@ const Testimonials = () => {
             text: 'Game-changer for our business. The intuitive interface and powerful features make it a must-have tool.'
         },
     ];
+
+    // Filter only feedback contacts and map to card shape
+    const feedbackCards = contacts
+        .filter(contact => contact.subject?.toLowerCase() === 'feedback')
+        .map(contact => ({
+            image: DEFAULT_AVATAR || contact.image,
+            name: contact.name,
+            handle: `@${contact.email.split('@')[0]}`,
+            date: new Date(contact.createdAt).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            }),
+            text: contact.message,
+        })) 
+    
+    // Merge dynamic feedback cards with static cards
+    const cardsData = [...feedbackCards, ...staticCards];
+    const doubledCards = [...cardsData, ...cardsData];
 
     const TestimonialCard = ({ card }) => (
         
@@ -71,7 +116,11 @@ const Testimonials = () => {
         
     );
 
-    const doubledCards = [...cardsData, ...cardsData];
+    if (loading) {
+        return (
+        <LoadingState label={"Loading Feedbacks...."} />
+        )
+    }
 
     return (
         <>

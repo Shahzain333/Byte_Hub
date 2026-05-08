@@ -21,7 +21,7 @@ const Categories = () => {
         
           {categories.map((cat) => (
 
-            <div key={cat._id} className="cursor-pointer group">
+            <div key={cat._id} onClick={() => navigate('/menu', { state: { category: cat.name } })} className="cursor-pointer group">
             
               <div className="relative">
             

@@ -5,6 +5,6 @@ import { createContact, getAllContacts } from '../controllers/contactController.
 const contactRoutes = express.Router()
 
 contactRoutes.post('/create', createContact)
-contactRoutes.get('/all', adminOnly, getAllContacts)
+contactRoutes.get('/all', getAllContacts)
 
 export default contactRoutes

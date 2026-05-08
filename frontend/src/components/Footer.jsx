@@ -32,7 +32,9 @@ const Footer = () => {
                         <img src={logo} alt="logo" className="w-[150px]" />
 
                         <p className="text-gray-600 text-sm max-w-[350px] lg:max-w-[450px] md:pl-7">
-                            BiteHub is your go-to platform for delicious meals and seamless reservations. BiteHub is your go-to platform for delicious meals and seamless reservations.
+                            From cozy brunches to candlelit dinners, <span className="text-[#E09A05] font-medium">ByteHub</span> connects 
+                            food lovers with unforgettable dining experiences. Discover top restaurants, explore diverse menus, and secure 
+                            your table in seconds — because great meals deserve great moments.
                         </p>
 
                         <div className="flex gap-2 text-[#E09A05] md:pl-4">
@@ -57,7 +59,7 @@ const Footer = () => {
                         {/* Quick Links */}
                         <div className="lg:w-1/2">
                         
-                            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2">Quick Links</h3>
+                            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-6">Quick Links</h3>
 
                             <div className="flex flex-col gap-2">
                                 { FooterLinks.main.map((links,index)=>         
@@ -81,9 +83,9 @@ const Footer = () => {
                         </div>
 
                         {/* Contact Info */}
-                        <div className="lg:w-1/3">
+                        <div className="lg:w-1/2">
                             
-                            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2">Contact Us</h3>
+                            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-6">Contact Us</h3>
                             
                             <div className="flex flex-col gap-3">
 
