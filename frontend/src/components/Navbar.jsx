@@ -106,40 +106,45 @@ const Navbar = () => {
 
                     <div className='hidden md:block'>
                         { user ? (
-                            <div className='relative'>
-                                
-                                <button className='p-2 hover:bg-gray-100 rounded-lg transition-colors'
-                                onMouseEnter={() => setIsProfileOpen(true)} onMouseLeave={() => setIsProfileOpen(false)}>
-                                    <UserCircle size={30} className='text-gray-700'/>
+                            <div className='relative' onMouseEnter={() => setIsProfileOpen(true)}
+                                onMouseLeave={() => setIsProfileOpen(false)}>
+
+                                <button className='p-1.5 hover:bg-gray-100 rounded-lg transition-colors'>
+                                    
+                                    {user?.image ? (
+                                        <img src={user.image} alt={user.username}
+                                            className='w-10 h-10 rounded-full object-cover'/>
+                                    ) : (
+                                        <UserCircle size={30} className='text-gray-700' />
+                                    )}
+
                                 </button>
 
-                                { 
+                                {
                                     isProfileOpen && (
-                                        <div onMouseEnter={() => setIsProfileOpen(true)} onMouseLeave={() => setIsProfileOpen(false)}
-                                        className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100'>
-                                            
-                                            <Link to={'/my-bookings'} className='flex items-center px-4 py-2 text-gray-700
-                                            hover:bg-gray-100 transition-colors'>
-                                                <Calendar size={18} className='mr-3'/>
+                                        <div className='absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100'>
+
+                                            <Link to={'/my-bookings'}
+                                                className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:rounded-lg transition-colors'>
+                                                <Calendar size={18} className='mr-3' />
                                                 My Bookings
                                             </Link>
-                                            
-                                            <Link to={'/my-orders'} className='flex items-center px-4 py-2 text-gray-700
-                                            hover:bg-gray-100 transition-colors'>
-                                                <Package size={18} className='mr-3'/>
+
+                                            <Link to={'/my-orders'}
+                                                className='flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:rounded-lg transition-colors'>
+                                                <Package size={18} className='mr-3' />
                                                 My Orders
                                             </Link>
-                                            
-                                            <button onClick={handleLogOut} className='flex item-center w-full px-4 py-2 text-red-500 hover:bg-red-50 
-                                            transition-colors'>
-                                                <LogOut size={18} className='mr-3' /> 
+
+                                            <button onClick={handleLogOut}
+                                                className='flex items-center w-full px-4 py-2 text-red-500 hover:bg-red-50 hover:rounded-lg transition-colors'>
+                                                <LogOut size={18} className='mr-3' />
                                                 Logout
                                             </button>
 
                                         </div>
                                     )
                                 }
-
                             </div>
                             ) : (
                                 <button onClick={() => navigate('/login')} className='bg-[#FFB703] hover:bg-[#E09A05] text-white px-6
@@ -213,7 +218,7 @@ const Navbar = () => {
                         Log Out
                     </button>
                     ) : (
-                    <button onClick={() => { navigate('/login'), setIsMenuOpen(false) }} className='
+                    <button onClick={() => { navigate('/login'); setIsMenuOpen(false) }} className='
                     bg-[#FFB703] hover:bg-[#E09A05] text-white px-6 py-2 rounded-lg 
                     transition-colors font-medium cursor-pointer'>
                         Login

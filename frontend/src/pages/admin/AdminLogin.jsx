@@ -1,16 +1,18 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { LockIcon, MailIcon } from "lucide-react";
+import { LockIcon, MailIcon, EyeOff, Eye } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { AppContext } from "../../context/AppContext";
 const AdminLogin = () => {
-  const { navigate, loading, setLoading, axios, setAdmin } =
-    useContext(AppContext);
-  // state for input value
+
+  const { navigate, loading, setLoading, axios, setAdmin } = useContext(AppContext);
+  
+    // state for input value
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false)
 
   // handle change input value
   const onChangeHandler = (e) => {
@@ -41,75 +43,126 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-72px)] bg-cyan-50 py-4 px-2 md:px-0 flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full sm:w-[380px] text-center border border-amber-200 rounded-2xl 
-        px-4 md:px-8 bg-white shadow-md"
-      >
-        {/* Header accent bar */}
-        <div className="w-16 h-1 bg-[#FFB703] rounded-full mx-auto mt-10 mb-4" />
+    <div className="bg-stone-100 min-h-[calc(100vh-5px)] flex items-center justify-center py-4 px-4">
 
-        <h1 className="text-[#1A1A1A] text-3xl font-bold">
-          Welcome Back
-        </h1>
-        <p className="text-zinc-500 text-sm mt-2 pb-6">
-          Please login to continue
-        </p>
+      <div className="w-full md:max-w-[420px] rounded-[20px] overflow-hidden shadow-xl border 
+      border-amber-100 bg-white">
 
-        {/* Email Field */}
-        <div className="flex items-center w-full mt-4 bg-amber-50 border border-amber-200
-        h-12 rounded-full overflow-hidden pl-6 gap-2 focus-within:border-[#FFB703] transition-colors">
-          <MailIcon size={18} className="text-[#E09A05] shrink-0" />
-          <input
-            type="email"
-            placeholder="Email address"
-            className="bg-transparent text-[#1A1A1A] placeholder-zinc-400 
-            outline-none text-sm w-[80%] h-full"
-            name="email"
-            value={formData.email}
-            onChange={onChangeHandler}
-            required
-          />
+        {/* Header */}
+        <div className="px-8 pt-8 pb-5 relative overflow-hidden bg-gradient-to-br from-[#E09A05] via-[#FFB703] to-[#F5C842]">
+
+          {/* Decorative circles */}
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/10" />
+          <div className="absolute -bottom-8 left-5 w-20 h-20 rounded-full bg-white/10" />
+
+          {/* Badge */}
+          <div className="relative z-10 inline-flex items-center gap-1.5 border border-white/20 rounded-full px-3 py-1 mb-4">
+            <span className="text-white text-[13px] font-medium tracking-wide">
+              ✦ Welcome Back
+            </span>
+          </div>
+
+          <h1
+            className="relative z-10 text-white text-[30px] leading-tight mb-1"
+            style={{ fontFamily: 'Georgia, serif', fontWeight: 400 }}
+          >
+            Sign in to<br />your account
+          </h1>
+
+          <p className="relative z-10 text-white/90 text-[13px]">
+            Continue your journey with admin
+          </p>
+
         </div>
 
-        {/* Password Field */}
-        <div className="flex items-center mt-4 w-full bg-amber-50 border border-amber-200 
-        h-12 rounded-full overflow-hidden pl-6 gap-2 focus-within:border-[#FFB703] transition-colors">
-          <LockIcon size={18} className="text-[#E09A05] shrink-0" />
-          <input
-            type="password"
-            placeholder="Password"
-            className="bg-transparent text-[#1A1A1A] placeholder-zinc-400 
-            outline-none text-sm w-[80%] h-full"
-            name="password"
-            value={formData.password}
-            onChange={onChangeHandler}
-            required
-          />
-        </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
 
-        <button
-          type="submit"
-          className="mt-5 w-full h-11 rounded-full bg-[#FFB703] hover:bg-[#E09A05] text-white 
-            cursor-pointer transition-colors font-medium shadow-sm mb-10"
-        >
-          { loading ?
-          <div className='flex items-center justify-center gap-2'>
-            <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
-            Loading...
-          </div> : 
-          "Login"
-          }
-        </button>
+          {/* Email */}
+          <div>
 
-        {/* <p className="text-zinc-500 text-sm mt-3 mb-10">
-          Don't have an account?{' '}
-          <Link to={"/signup"} className="text-[#FFB703] hover:text-[#E09A05] font-medium transition-colors">
-            Sign up
-          </Link>
-        </p> */}
-      </form>
+            <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-1.5">
+              Email address
+            </label>
+
+            <div className="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-xl h-11 px-4 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/15 transition-all">
+
+              <MailIcon size={16} className="text-amber-600 shrink-0" />
+
+              <input
+                type="email"
+                placeholder="you@example.com"
+                className="flex-1 bg-transparent text-[14px] pt-1 pb-1 text-zinc-800 placeholder-zinc-400 
+                outline-none"
+                name="email"
+                value={formData.email}
+                onChange={onChangeHandler}
+                required
+              />
+
+            </div>
+
+          </div>
+
+          {/* Password */}
+          <div>
+
+            <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-1.5">
+              Password
+            </label>
+
+            <div className="flex items-center gap-2 bg-stone-50 border border-stone-200 rounded-xl h-11 px-4 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/15 transition-all">
+
+              <LockIcon size={16} className="text-amber-600 shrink-0" />
+
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                className="flex-1 bg-transparent text-[14px] text-zinc-800 pt-1 pb-1 placeholder-zinc-400 outline-none"
+                name="password"
+                value={formData.password}
+                onChange={onChangeHandler}
+                required
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="text-zinc-400 hover:text-zinc-600"
+              >
+                
+                {showPassword ? <Eye size={16} /> : <EyeOff size={16} />}
+
+              </button>
+
+            </div>
+
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-[46px] rounded-xl bg-[#FFB703] hover:bg-[#E09A05] active:scale-[0.99]
+            disabled:opacity-60 disabled:cursor-not-allowed transition-all text-white font-semibold
+            text-[15px] flex items-center justify-center gap-2 mt-2 shadow-sm mb-4"
+          >
+            {
+              loading ? (
+                <div className='flex items-center justify-center gap-2'>
+                  <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
+                  Signing In...
+                </div>
+              ) : (
+                "Sign In"
+              )
+            }
+          </button>
+
+        </form>
+
+      </div>
+
     </div>
   );
 };

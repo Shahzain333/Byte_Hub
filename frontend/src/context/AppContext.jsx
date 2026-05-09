@@ -28,6 +28,7 @@ const AppContextProvider = ({ children }) => {
                 setUser(data.user)
                 return true
             }
+            navigate('/')
             return false
         } catch (error) {
            if (error?.response?.status !== 401) {
@@ -46,6 +47,7 @@ const AppContextProvider = ({ children }) => {
                 setAdmin(true)
                 return true
             }
+            navigate('/admin')
             return false
         } catch (error) {
            return false
@@ -149,27 +151,34 @@ const AppContextProvider = ({ children }) => {
     }, [cart])
 
     useEffect(() => {
+
         const initializeApp = async () => {
 
-            const authenticated = await isAuth()
-            await isAdmin()
-            
-            fetchCategories()
-            fetchMenus()
-            
-            if (authenticated) {
-                fetchCart()
+            try {
+
+                const authenticated = await isAuth()
+
+                if (authenticated) {
+                    await isAdmin()
+                    await fetchCart()
+                }
+
+                await fetchCategories()
+                await fetchMenus()
+
+            } catch (error) {
+                console.log("Initialize App Error", error)
             }
-        
+
         }
-        
+
         initializeApp()
 
     }, [])
 
     const value = { navigate, loading, setLoading, user, setUser, axios, admin, setAdmin,
         categories, fetchCategories, menus, fetchMenus, addToCart, fetchCart, totalPrice, 
-        cartCount, cart, dataLoading }
+        cartCount, cart, dataLoading, isAuth }
 
     
     return (    

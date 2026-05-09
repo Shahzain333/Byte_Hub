@@ -9,7 +9,7 @@ import Logo from '../../assets/BYTE HUB.png'
 
 const AdminLayout = () => {
 
-  const { setAdmin, axios } = useContext(AppContext)
+  const { setAdmin, axios, navigate } = useContext(AppContext)
 
   const location = useLocation()
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
@@ -75,8 +75,9 @@ const AdminLayout = () => {
       const { data } = await axios.post('/api/auth/logout')
   
       if(data.success) {
-        toast.success(data.message)
+        toast.success("Admin logged out Successfully")
         setAdmin(null)
+        navigate('/admin')
       } else {
         toast.error(data.message)
       }

@@ -1,6 +1,7 @@
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import { v2 as cloudinary } from 'cloudinary'
 
 // Generetae JWT Token
 const generateToken = (res, payload) => {
@@ -25,6 +26,7 @@ export const handleCreateNewUser = async(req,res) => {
             return res.json({ message: "Please fill all the fields", success: false})
         }
 
+        const result = await cloudinary.uploader.upload(req.file.path)
         const existingUser = await User.findOne({email})
 
         if(existingUser) {
@@ -32,7 +34,12 @@ export const handleCreateNewUser = async(req,res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
-        const user = await User.create({username, email, password: hashedPassword})
+        const user = await User.create({
+            username, 
+            email, 
+            password: hashedPassword,
+            image: result.secure_url
+        })
 
         return res.json({ message: "User registered successfully", success: true })
 
