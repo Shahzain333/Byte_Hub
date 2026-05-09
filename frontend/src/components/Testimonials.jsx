@@ -188,7 +188,7 @@ const Testimonials = () => {
             </div>
 
             {/* Second Row - Right to Left */}
-            <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative mt-2">
+            <div className="marquee-row w-full mx-auto max-w-7xl overflow-hidden relative mt-3 mb-4">
         
                 <div className="absolute left-0 top-0 h-full w-20 md:w-32 z-10 pointer-events-none fade-left"></div>
         

@@ -4,10 +4,11 @@ import MenuCard from '../components/MenuCard'
 import { Search, X } from 'lucide-react'
 import heroSectionMenu from '../assets/heroSectionMenu.jpg'
 import { useLocation } from 'react-router-dom'
+import LoadingState from '../components/LoadingState'
 
 const Menu = () => {
   
-  const { menus, categories } = useContext(AppContext)
+  const { menus, categories, dataLoading } = useContext(AppContext)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [filteredMenus, setFilteredMenus] = useState([])
@@ -42,6 +43,12 @@ const Menu = () => {
       setSelectedCategory(location.state.category)
     }
   }, [])
+
+  if (dataLoading) {
+    return (
+      <LoadingState label={"Loading Menus...."} />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#fffaf0] via-white to-gray-50">

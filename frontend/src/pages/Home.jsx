@@ -5,6 +5,7 @@ import Menus from '../components/Menus'
 import NewsLetter from '../components/NewsLetter'
 import Testimonials from '../components/Testimonials'
 import Testimonial2 from '../components/Testimonial2'
+import Faqs from './Faqs'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <Menus/>
       {/* <NewsLetter/> */}
       <Testimonials/>
+      <Faqs/>
       {/* <Testimonial2/> */}
     </div>
   )

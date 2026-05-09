@@ -1,24 +1,36 @@
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../context/AppContext";
+import LoadingState from '../components/LoadingState'
 
 const MyBookings = () => {
   
-  const { axios } = useContext(AppContext);
+  const { axios, loading, setLoading } = useContext(AppContext);
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = async () => {
     try {
+      setLoading(true)
       const { data } = await axios.get("/api/booking/my-bookings");
       if (data.success) {
         setBookings(data.bookings);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
+    } finally {
+      setLoading(false)
     }
   };
+
   useEffect(() => {
     fetchBookings();
   }, []);
+
+  if (loading) {
+    return (
+      <LoadingState label={"Loading MyBookings...."} />
+    )
+  }
 
   return (
     <div className="max-w-5xl mx-auto mt-1 p-6">

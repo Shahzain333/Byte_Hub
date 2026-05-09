@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import { toast } from 'react-hot-toast'
+import LoadingState from '../components/LoadingState'
 
 const MyOrder = () => {
   
-  const { axios } = useContext(AppContext)
+  const { axios, loading, setLoading } = useContext(AppContext)
   const [orders, setOrders] = useState([])
 
   const fetchMyOrders = async () => {
     try {
-      
+      setLoading(true)
       const { data } = await axios.get('/api/order/my-orders')
       //console.log("Order Data", data)
       
@@ -18,14 +19,23 @@ const MyOrder = () => {
       } 
 
     } catch (error) {
+      setLoading(false)
       toast.error("Something Went Wrong!")
       console.log("Error In Checkout In Frontend",error)
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     fetchMyOrders()
   }, [])
+
+  if (loading) {
+    return (
+      <LoadingState label={"Loading MyOrders...."} />
+    )
+  }
 
   return (
     <div className="max-w-5xl mx-auto mt-1 p-6">

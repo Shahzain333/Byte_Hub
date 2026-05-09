@@ -1,9 +1,16 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
+import LoadingState from '../components/LoadingState'
 
 const Categories = () => {
   
-  const { navigate, categories } = useContext(AppContext)
+  const { navigate, categories, dataLoading } = useContext(AppContext)
+
+  if (dataLoading) {
+    return (
+      <LoadingState label={"Loading Categories...."} />
+    )
+  }
 
   return (
     <section className='py-8 md:py-12 bg-gradient-to-b from-gray-50 to-white'>
