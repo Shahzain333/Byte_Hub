@@ -1,5 +1,5 @@
 import express from 'express'
-import { handleAdminLogin, handleUserLogin, handleUserLogout, handleCreateNewUser, handleGetProfile, handleIsAuth } 
+import { handleAdminLogin, handleUserLogin, handleUserLogout, handleCreateNewUser, handleGetProfile, handleIsAuth, handleIsAuthAdmin } 
 from '../controllers/authController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 
@@ -11,5 +11,6 @@ authRoutes.post('/logout', handleUserLogout)
 authRoutes.post('/admin/login', handleAdminLogin)
 authRoutes.get('/profile', protect, handleGetProfile)
 authRoutes.get('/is-auth', protect, handleIsAuth)
+authRoutes.get('/is-admin', protect, handleIsAuthAdmin)
 
 export default authRoutes

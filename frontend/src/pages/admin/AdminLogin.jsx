@@ -21,11 +21,12 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       setLoading(true);
+      
       const { data } = await axios.post("/api/auth/admin/login", formData);
 
       if (data.success) {
-        localStorage.setItem("admin", JSON.stringify(data.admin));
         setAdmin(true);
         toast.success(data.message);
         navigate("/admin");
@@ -38,6 +39,7 @@ const AdminLogin = () => {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-[calc(100vh-72px)] bg-cyan-50 py-4 px-2 md:px-0 flex items-center justify-center">
       <form
@@ -90,7 +92,7 @@ const AdminLogin = () => {
         <button
           type="submit"
           className="mt-5 w-full h-11 rounded-full bg-[#FFB703] hover:bg-[#E09A05] text-white 
-            cursor-pointer transition-colors font-medium shadow-sm"
+            cursor-pointer transition-colors font-medium shadow-sm mb-10"
         >
           { loading ?
           <div className='flex items-center justify-center gap-2'>
@@ -101,12 +103,12 @@ const AdminLogin = () => {
           }
         </button>
 
-        <p className="text-zinc-500 text-sm mt-3 mb-10">
+        {/* <p className="text-zinc-500 text-sm mt-3 mb-10">
           Don't have an account?{' '}
           <Link to={"/signup"} className="text-[#FFB703] hover:text-[#E09A05] font-medium transition-colors">
             Sign up
           </Link>
-        </p>
+        </p> */}
       </form>
     </div>
   );

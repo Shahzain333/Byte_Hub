@@ -165,3 +165,20 @@ export const handleIsAuth = async(req,res) => {
         return res.json({ message: "Internal server error", success: false })
     }
 }
+
+export const handleIsAuthAdmin = async(req,res) => {
+    try {
+
+        const { email } = req.user
+
+        if (email !== process.env.ADMIN_EMAIL) {
+            return res.json({ success: false, message: "Not authorized Admin" })
+        }
+
+        res.json({ success: true })
+
+    } catch (error) {
+        console.log("Error in isAdmin : ", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}

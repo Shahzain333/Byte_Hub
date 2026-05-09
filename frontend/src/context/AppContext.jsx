@@ -36,6 +36,19 @@ const AppContextProvider = ({ children }) => {
         }
     }
 
+    const isAdmin = async () => {
+        try {
+            const { data } = await axios.get('/api/auth/is-admin')
+            if(data.success) {
+                setAdmin(true)
+                return true
+            }
+            return false
+        } catch (error) {
+           return false
+        }
+    }
+
     const fetchCategories = async () => {
         try {
             setDataLoading(true)
@@ -136,6 +149,7 @@ const AppContextProvider = ({ children }) => {
         const initializeApp = async () => {
 
             const authenticated = await isAuth()
+            await isAdmin()
             
             fetchCategories()
             fetchMenus()
