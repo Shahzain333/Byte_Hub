@@ -128,14 +128,15 @@ const Menu = () => {
       {/* ── Category Filter Pills ── */}
       <div className="sticky top-0 z-10 bg-white/90">
 
-        <div className="container mx-auto py-4">
+        <div className="container mx-auto py-3 md:py-4">
       
-          <div className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide ">
+          <div className="flex md:items-center md:justify-center md:gap-2 gap-1 overflow-x-auto pl-1 md:pl-0 pr-1 md:pr-0
+          scrollbar-hide pb-2 md:pb-0">
 
             {/* All pill */}
             <button onClick={() => { setSelectedCategory("All"); setSearchQuery("") }}
-              className={`flex-shrink-0 px-5 py-1.5 rounded-full text-lg font-semibold border transition-all 
-                duration-900 ${selectedCategory === "All" ? "bg-[#FFB703] text-white border-[#FFB703] shadow-sm"
+              className={`flex-shrink-0 px-5 py-0 md:px-5 md:py-1.5 rounded-full text-sm md:text-lg font-semibold 
+                border transition-all duration-900 ${selectedCategory === "All" ? "bg-[#FFB703] text-white border-[#FFB703] shadow-sm"
                   : "bg-white text-gray-600 border-gray-200 hover:border-[#FFB703] hover:text-[#FFB703]"
                 }`}>
               All
@@ -145,14 +146,14 @@ const Menu = () => {
             {categories.map((cat) => (
             
               <button key={cat._id} onClick={() => { setSelectedCategory(cat.name); setSearchQuery("") }}
-                className={`flex-shrink-0 flex items-center gap-2 px-5 py-1.5 rounded-full text-lg font-semibold 
+                className={`flex-shrink-0 flex items-center gap-1 md:gap-2 px-4 py-1 md:px-5 md:py-1.5 rounded-full text-sm md:text-lg font-semibold 
                 border transition-all duration-900 ${selectedCategory === cat.name
                     ? "bg-[#FFB703] text-white border-[#FFB703] shadow-sm"
                     : "bg-white text-gray-600 border-gray-200 hover:border-[#FFB703] hover:text-[#FFB703]"
                   }`}>
 
                 {cat.image && (
-                  <img src={cat.image} alt={cat.name} className="w-8 h-8 rounded-full object-cover" />
+                  <img src={cat.image} alt={cat.name} className="w-7 h-7 md:w-8 md:h-8 rounded-full object-cover" />
                 )}
                 {cat.name}
               
@@ -167,7 +168,7 @@ const Menu = () => {
       </div>
 
       {/* ── Menu Cards ── */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-4 md:py-6">
       
         {filteredMenus.length > 0 ? (
           
