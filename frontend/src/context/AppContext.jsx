@@ -11,7 +11,7 @@ export const AppContext = createContext()
 const AppContextProvider = ({ children }) => {
     
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [user, setUser] = useState(null)
     const [admin, setAdmin] = useState(null)
     const [categories, setCategories] = useState([])
@@ -22,6 +22,7 @@ const AppContextProvider = ({ children }) => {
 
     const isAuth = async () => {
         try {
+            setLoading(true)
             const { data } = await axios.get('/api/auth/is-auth')
             if(data.success) {
                 setUser(data.user)
@@ -33,6 +34,8 @@ const AppContextProvider = ({ children }) => {
                 console.log("Error in isAuth App Context", error)
            }
            return false
+        } finally {
+            setLoading(false)
         }
     }
 

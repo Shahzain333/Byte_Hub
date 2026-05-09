@@ -3,10 +3,15 @@ import { AppContext } from "../context/AppContext";
 import { X, ShoppingCart } from "lucide-react";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import LaodingState from '../components/LoadingState'
 
 const Cart = () => {
 
-  const { cart, totalPrice, navigate, axios, fetchCart, user } = useContext(AppContext);
+  const { cart, totalPrice, navigate, axios, fetchCart, user, loading } = useContext(AppContext);
+
+  if(loading) {
+    return <LoadingState label="Loading..." />;
+  }
 
   // If user is logged out, always redirect to sign-in.
   if (!user) {

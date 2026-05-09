@@ -44,10 +44,11 @@ const Menus = () => {
             {/* "View Full Menu" button linking to the menu page */}
             {menus.length > 8 && (
                 <div className="text-center mt-10">
-                    <div onClick={() => navigate('/menu')} className="inline-block bg-[#FFB703] text-white 
-                    font-semibold px-8 py-3 rounded-full hover:bg-[#e0a500] transition-colors duration-200 hover:cursor-pointer">
+                    <button onClick={() => navigate('/menu')} className="inline-block bg-[#FFB703] text-white border border-[#FFB703]
+                    font-semibold px-8 py-3 rounded-full hover:border-[#FFB703] hover:bg-white hover:text-[#FFB703]
+                    transition-colors duration-200 hover:cursor-pointer">
                         View Full Menu
-                    </div>
+                    </button>
                 </div>
             )}
 
