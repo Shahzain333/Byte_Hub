@@ -136,7 +136,7 @@ const BookTable = () => {
               focus:outline-none resize-none"></textarea> */}
 
               <button type="submit" disabled={loading} className="w-full bg-[#FFB703] text-white py-3 rounded-lg hover:bg-[#E09A05]
-              transition font-medium">
+              transition font-medium tracking-wide">
                 { loading ?
                   <div className='flex items-center justify-center gap-2'>
                     <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />

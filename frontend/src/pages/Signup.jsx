@@ -217,11 +217,11 @@ const Signup = () => {
               
               <input
                 type="file"
+                name='file'
                 id="fileUpload"
                 onChange={handleFileChange}
                 accept="image/*"
                 className="hidden"
-                required
               />
           
             </label>

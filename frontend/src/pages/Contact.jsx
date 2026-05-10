@@ -168,7 +168,7 @@ const Contact = () => {
             <form onSubmit={handleSubmit}>
 
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Name *</label>
+                <label className="block text-gray-700 font-semibold mb-2 tracking-wide">Name *</label>
                 <input
                   type="text"
                   name="name"
@@ -181,7 +181,7 @@ const Contact = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Email *</label>
+                <label className="block text-gray-700 font-semibold mb-2 tracking-wide">Email *</label>
                 <input
                   type="email"
                   name="email"
@@ -194,7 +194,7 @@ const Contact = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700 font-semibold mb-2">Phone</label>
+                <label className="block text-gray-700 font-semibold mb-2 tracking-wide">Phone</label>
                 <input
                   type="tel"
                   name="phone"
@@ -208,7 +208,7 @@ const Contact = () => {
               {/* Subject Dropdown */}
               <div className="mb-4" ref={dropdownRef}>
                 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-gray-700 font-semibold mb-2 tracking-wide">
                   Subject *
                 </label>
 
@@ -262,7 +262,7 @@ const Contact = () => {
               </div>
 
               <div className="mb-6">
-                <label className="block text-gray-700 font-semibold mb-2">Message *</label>
+                <label className="block text-gray-700 font-semibold mb-2 tracking-wide">Message *</label>
                 <textarea
                   name="message"
                   value={formData.message}
@@ -277,7 +277,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#FFB703] hover:bg-[#E09A05] text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+                className="w-full bg-[#FFB703] hover:bg-[#E09A05] tracking-wide text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
               >
                 {loading ? (
                   <div className="flex items-center justify-center gap-2">

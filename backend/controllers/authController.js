@@ -5,7 +5,9 @@ import { v2 as cloudinary } from 'cloudinary'
 
 // Generetae JWT Token
 const generateToken = (res, payload) => {
+    
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1d" })
+    
     res.cookie('token', token, { 
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", 
@@ -20,25 +22,34 @@ const generateToken = (res, payload) => {
 export const handleCreateNewUser = async(req,res) => {
     try {
         
-        const { username, email, password } = req.body
+        const { username, email, password, confirmPassword } = req.body
 
-        if(!username || !email || !password) {
+        if(!username || !email || !password || !confirmPassword) {
             return res.json({ message: "Please fill all the fields", success: false})
         }
 
-        const result = await cloudinary.uploader.upload(req.file.path)
-        const existingUser = await User.findOne({email})
+        let imageUrl = null
+        
+        if(req.file?.path) {
+            const result = await cloudinary.uploader.upload(req.file.path)
+            imageUrl = result.secure_url
+        }
+
+        const existingUser = await User.findOne({ email })
 
         if(existingUser) {
             return res.json({ message: "User already exist", success: false })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10)
+
         const user = await User.create({
             username, 
             email, 
             password: hashedPassword,
-            image: result.secure_url
+            confirmPassword: hashedConfirmPassword,
+            image: imageUrl
         })
 
         return res.json({ message: "User registered successfully", success: true })
