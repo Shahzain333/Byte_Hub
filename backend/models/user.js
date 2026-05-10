@@ -16,16 +16,23 @@ const userSchema = new Schema({
     },
     confirmPassword: {
         type: String,
-        required: true,
+        required: false,
     },
     image: {
         type: String,
-        //required: false,
         default: null
     },
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    resetOtp:{
+        type: String,
+        default: null
+    },
+    resetOtpExpiry: {
+        type: Date,
+        default: null
     }
 }, { timestamps: true })
 

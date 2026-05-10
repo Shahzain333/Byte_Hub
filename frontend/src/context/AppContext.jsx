@@ -47,7 +47,7 @@ const AppContextProvider = ({ children }) => {
                 setAdmin(true)
                 return true
             }
-            navigate('/admin')
+            //navigate('/admin')
             return false
         } catch (error) {
            return false
@@ -157,9 +157,9 @@ const AppContextProvider = ({ children }) => {
             try {
 
                 const authenticated = await isAuth()
+                await isAdmin()
 
                 if (authenticated) {
-                    await isAdmin()
                     await fetchCart()
                 }
 

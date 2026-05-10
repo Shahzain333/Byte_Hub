@@ -1,7 +1,7 @@
+import dotenv from 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import dotenv from 'dotenv'
 import { connectDB } from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
@@ -12,7 +12,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
 import contactRoutes from './routes/contactRoutes.js'
 
-dotenv.config()
+dotenv.config
 
 const app = express()
 

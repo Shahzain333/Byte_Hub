@@ -2,6 +2,8 @@ import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { v2 as cloudinary } from 'cloudinary'
+import { sendOtpEmail } from '../utils/sendTransactionalEmails.js'
+import crypto from 'node:crypto'
 
 // Generetae JWT Token
 const generateToken = (res, payload) => {
@@ -197,6 +199,126 @@ export const handleIsAuthAdmin = async(req,res) => {
 
     } catch (error) {
         console.log("Error in isAdmin : ", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}
+
+// Step 1 -- If User Forgot Password
+export const handleForgotPassword = async(req,res) => {
+    try {
+        
+        const { email } = req.body
+
+        if(!email) {
+            return res.json({ message: "Email is required", success: false })
+        }
+
+        const user = await User.findOne({ email })
+
+        if(!user) {
+            // Return success anyway to avoid email enumeration
+            return res.json({ message: "If this email exists, an OTP has been sent", success: true })
+        }
+
+        // Generate 6-digit OTP
+        const otp = crypto.randomInt(100000, 999999).toString()
+        const otpExpiry = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes
+
+        user.resetOtp = otp
+        user.resetOtpExpiry = otpExpiry
+
+        await user.save()
+
+        await sendOtpEmail({ name: user.username, email: user.email, otp })
+
+        return res.json({ message: "OTP sent to your email", success: true })
+
+    } catch (error) {
+        console.log("Error in Handle Forgot Password : ", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}
+
+// Step 2 -- Verify OTP
+export const handleVerifyOtp = async(req,res) => {
+    try {
+
+        const { email, otp } = req.body
+
+        if(!email, !otp) {
+            return res.json({ message: "Email and OTP are required", success: false })
+        }
+
+        const user = await User.findOne({ email })
+
+        if (!user || !user.resetOtp || !user.resetOtpExpiry) {
+            return res.json({ message: "Invalid or expired OTP", success: false })
+        }
+
+        // Check expiry
+        if(new Date() > user.resetOtpExpiry) {
+            user.resetOtp = null
+            user.resetOtpExpiry = null
+            await user.save()
+            return res.json({ message: "OTP has expired, please request a new one", success: false })
+        }
+
+        // check match
+        if(user.resetOtp !== otp) {
+            return res.json({ message: "Incorrect OTP", success: false })
+        }
+
+        return res.json({ message: "OTP verified successfully", success: true })
+    
+    } catch (error) {
+        console.log("Error in handle Verify Otp:", error.message)
+        return res.json({ message: "Internal server error", success: false })
+    }
+}
+
+// Step 3 — Reset Password
+export const handleResetPassword = async(req,res) => {
+    try {
+        
+        const { email, otp, newPassword, confirmPassword  } = req.body
+
+        if (!email || !otp || !newPassword || !confirmPassword ) {
+            return res.json({ message: "All fields are required", success: false })
+        }
+
+        if (newPassword !== confirmPassword ) {
+            return res.json({ message: "Passwords do not match", success: false })
+        }
+
+        const user = await User.findOne({ email })
+
+        if (!user || !user.resetOtp || !user.resetOtpExpiry) {
+            return res.json({ message: "Invalid or expired OTP", success: false })
+        }
+
+        // Re-verify OTP expiry and match (don't trust client)
+        if (new Date() > user.resetOtpExpiry) {
+            user.resetOtp = null
+            user.resetOtpExpiry = null
+            await user.save()
+            return res.json({ message: "OTP has expired, please request a new one", success: false })
+        }
+
+        if (user.resetOtp !== otp) {
+            return res.json({ message: "Invalid OTP", success: false })
+        }
+
+        // Update password and clear OTP
+        user.password = await bcrypt.hash(newPassword, 10)
+        user.confirmPassword = await bcrypt.hash(confirmPassword , 10)
+        user.resetOtp = null
+        user.resetOtpExpiry = null
+        await user.save()
+
+        return res.json({ message: "Password reset successfully", success: true })
+
+    } catch (error) {
+        console.log("Error in handle Reset Password:", error.message)
         return res.json({ message: "Internal server error", success: false })
     }
 }

@@ -178,3 +178,26 @@ export const sendOrderStatusEmail = async ({
         `,
     })
 }
+
+export const sendOtpEmail = async ({ name, email, otp }) => {
+    
+    if (!hasRequiredMailConfig()) {
+        throw new Error("Mail configuration is missing in environment variables")
+    }
+
+    const fromEmail = getFromEmail()
+
+    await transporter.sendMail({
+        from: fromEmail,
+        to: email,
+        subject: 'Your Password Reset Otp',
+        html: `
+            <h2>Password Reset Request</h2>
+            <p>Hi ${name},</p>
+            <p>You requested to reset your password. Use the OTP below:</p>
+            <h1 style="letter-spacing: 8px; color: #FFB703; font-size: 36px;">${otp}</h1>
+            <p>This OTP is valid for <strong>15 minutes</strong>.</p>
+            <p>If you did not request this, please ignore this email.</p>
+        `
+    })
+}
