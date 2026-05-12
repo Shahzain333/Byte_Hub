@@ -35,7 +35,18 @@ const orderSchema = new Schema({
     },
     paymentMethod: {
         type: String,
+        enum: ["Cash on Delivery", "Online Payment"],
         default: "Cash on Delivery"
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["Pending","Paid","Failed"],
+        default: "Pending"
+    },
+    // Stripe PaymentIntent ID — stored to verify/reference payments
+    stripePaymentIntentId: {
+        type: String,
+        default: null
     }
 }, { timestamps: true })
 
