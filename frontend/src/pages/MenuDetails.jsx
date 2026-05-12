@@ -6,7 +6,7 @@ import { ArrowLeft, CheckCircle, XCircle, ShoppingCart } from 'lucide-react';
 const MenuDetails = () => {
 
   const { id } = useParams()
-  const { navigate, menus, addToCart, cart } = useContext(AppContext)
+  const { navigate, menus, addToCart, cart, user } = useContext(AppContext)
 
   const menu = menus.find((item) => item._id === id)
 
@@ -154,15 +154,20 @@ const MenuDetails = () => {
             
               </div>
 
-              <button disabled={!menu.isAvailable} onClick={() => addToCart(menu._id)}
-                className={`cursor-pointer w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 
-                  flex items-center justify-center gap-3 ${menu.isAvailable
-                    ? "bg-white text-[#FFB703]  hover:bg-gray-50 hover:scale-105 active:scale-95 shadow-lg"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}>
-                <ShoppingCart className="w-6 h-6"/>
+              <button
+                disabled={!menu.isAvailable || !user}
+                onClick={user ? () => addToCart(menu._id) : undefined}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 
+                  flex items-center justify-center gap-3 ${
+                    menu.isAvailable && user
+                      ? "bg-white text-[#FFB703] hover:bg-gray-50 hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+              >
+                <ShoppingCart className="w-6 h-6" />
                 {menu.isAvailable ? "Add to Cart" : "Unavailable"}
               </button>
+              
             
             </div>
 

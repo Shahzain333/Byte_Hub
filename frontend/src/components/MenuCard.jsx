@@ -41,7 +41,7 @@ const MenuCard = ({ menu }) => {
         </p>
 
         {/* Price and Add to Cart — pinned to bottom */}
-        <div className="flex items-center justify-between mt-auto">  {/* ← mt-4 → mt-auto */}
+        <div className="flex items-center justify-between mt-auto">  
       
           <div>
             <p className="text-2xl font-bold text-gray-900">${menu.price}</p>
