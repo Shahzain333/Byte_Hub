@@ -227,8 +227,9 @@ const Dashboard = () => {
   const approvedBookings = bookings.filter(b => b.status === 'Approved').length
   const cancelledBookings = bookings.filter(b => b.status === 'Cancelled').length
 
-  const recentOrders = [...orders].slice(0, 5)
-  const recentBookings = [...bookings].slice(0, 5)
+  // Sort by latest first, then slice to 3
+  const recentOrders = [...orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3)
+  const recentBookings = [...bookings].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3)
 
   if (loading) {
     return (
@@ -372,7 +373,8 @@ const Dashboard = () => {
         
           <div className="space-y-0">
         
-            {contacts.slice(0, 4).map((c, i) => (
+            {[...contacts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .slice(0, 3).map((c, i) => (
         
               <div key={c._id} className={`flex items-start gap-3 py-3 ${i !== 0 ? 'border-t border-gray-50' : ''}`}>
               
