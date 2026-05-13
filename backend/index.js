@@ -25,7 +25,7 @@ connectCloudinary()
 // Middleware
 app.use(express.json())
 app.use(cors({
-    origin: "https://byte-hub-resturant-frontend.vercel.app",
+    origin: "https://byte-hub-resturant-app.vercel.app",
     credentials: true
 }))
 app.use(cookieParser())
