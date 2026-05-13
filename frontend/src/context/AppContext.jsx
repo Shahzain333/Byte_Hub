@@ -20,24 +20,22 @@ const AppContextProvider = ({ children }) => {
     const [totalPrice,setTotalPrice] = useState(0)
     const [dataLoading, setDataLoading] = useState(false)
 
-    const isAuth = async () => {
+    const isAuth = async (redirectOnFail = true) => {
         try {
-            setLoading(true)
+            //setLoading(true)
             const { data } = await axios.get('/api/auth/is-auth')
             if(data.success) {
                 setUser(data.user)
                 return true
             }
-            navigate('/')
+            if (redirectOnFail) navigate('/')  // only redirect if told to
             return false
         } catch (error) {
            if (error?.response?.status !== 401) {
                 console.log("Error in isAuth App Context", error)
            }
            return false
-        } finally {
-            setLoading(false)
-        }
+        } 
     }
 
     const isAdmin = async () => {
@@ -151,12 +149,16 @@ const AppContextProvider = ({ children }) => {
     }, [cart])
 
     useEffect(() => {
-
+        
         const initializeApp = async () => {
-
+            
             try {
+                
+                setLoading(true)
 
-                const authenticated = await isAuth()
+                const isAdminPage = window.location.pathname.startsWith('/admin')
+
+                const authenticated = await isAuth(!isAdminPage) // don't redirect if on /admin
                 await isAdmin()
 
                 if (authenticated) {
@@ -168,6 +170,8 @@ const AppContextProvider = ({ children }) => {
 
             } catch (error) {
                 console.log("Initialize App Error", error)
+            } finally {
+                setLoading(false)
             }
 
         }

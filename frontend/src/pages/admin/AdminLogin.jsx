@@ -6,6 +6,7 @@ import { AppContext } from "../../context/AppContext";
 const AdminLogin = () => {
 
   const { navigate, loading, setLoading, axios, setAdmin } = useContext(AppContext);
+  const [submitting, setSubmitting] = useState(false)
   
     // state for input value
   const [formData, setFormData] = useState({
@@ -24,21 +25,21 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
 
-      setLoading(true);
+      setSubmitting(true);
       
       const { data } = await axios.post("/api/auth/admin/login", formData);
 
       if (data.success) {
         setAdmin(true);
         toast.success(data.message);
-        navigate("/admin");
+        // navigate("/admin");
       } else {
         toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -142,13 +143,13 @@ const AdminLogin = () => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={submitting}
             className="w-full h-[46px] rounded-xl bg-[#FFB703] hover:bg-[#E09A05] active:scale-[0.99]
             disabled:opacity-60 disabled:cursor-not-allowed transition-all text-white font-semibold
             text-[15px] flex items-center justify-center gap-2 mt-2 shadow-sm mb-4"
           >
             {
-              loading ? (
+              submitting ? (
                 <div className='flex items-center justify-center gap-2'>
                   <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin' />
                   Signing In...
