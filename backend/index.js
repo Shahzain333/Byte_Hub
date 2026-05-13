@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -12,7 +12,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
 import contactRoutes from './routes/contactRoutes.js'
 
-dotenv.config()
+// dotenv.config()
 
 const app = express()
 
