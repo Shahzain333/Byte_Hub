@@ -1,8 +1,7 @@
-import './config/env.js'
-import express, { urlencoded } from 'express'
+import dotenv from 'dotenv'
+import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
 import path from 'path'   
 import { connectDB } from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
@@ -14,7 +13,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
 import contactRoutes from './routes/contactRoutes.js'
 
-import { fileURLToPath } from 'url'
+dotenv.config({ path: new URL('.env', import.meta.url).pathname })
 
 const app = express()
 
@@ -24,14 +23,8 @@ connectDB()
 // Cloudinary
 connectCloudinary()
 
-//const _dirname = path.resolve();
-const __filename = fileURLToPath(import.meta.url)
-const _dirname = path.dirname(__filename)
-
 // Middleware
 app.use(express.json())
-// app.use(bodyParser.urlencoded({ extended: true }))
-// app.use(urlencoded({ extended: true }))
 app.use(cors({
     origin: `${process.env.CLIENT_SIDE_URL}`,
     credentials: true
@@ -40,9 +33,9 @@ app.use(cookieParser())
 
 const PORT = process.env.PORT || 8001;
 
-// app.get('/', (req,res) => {
-//     res.send("Hello from resturant server")
-// })
+app.get('/', (req,res) => {
+    res.send("Hello from resturant server")
+})
 
 app.use('/api/auth', authRoutes)
 app.use('/api/category', categoryRoutes)
@@ -51,11 +44,6 @@ app.use('/api/cart', cartRoutes)
 app.use('/api/order', orderRoutes)
 app.use('/api/booking', bookingRoutes)
 app.use('/api/contact', contactRoutes)
-
-app.use(express.static(path.join(_dirname, "../frontend/dist")))
-app.get('/{*splat}', (_,res) => {
-    res.sendFile(path.resolve(_dirname, "../frontend/dist/index.html"))
-})
 
 app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`)

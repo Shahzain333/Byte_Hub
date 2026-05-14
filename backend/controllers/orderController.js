@@ -1,4 +1,4 @@
-import '../config/env.js'
+//import dotenv from 'dotenv'
 import Order from '../models/order.js'
 import Cart from '../models/carts.js'
 import User from '../models/user.js'
