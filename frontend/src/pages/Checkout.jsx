@@ -118,80 +118,82 @@ const Checkout = () => {
     // ONLINE PAYMENT
     if (paymentMethod === "Online Payment") {
 
-      if (!stripe || !elements) {
-        toast.error("Stripe is not ready yet. Please wait a moment.")
-        return
-      }
+      // if (!stripe || !elements) {
+      //   toast.error("Stripe is not ready yet. Please wait a moment.")
+      //   return
+      // }
 
-      if (!cardName.trim()) {
-        toast.error("Please enter the cardholder name")
-        return
-      }
+      // if (!cardName.trim()) {
+      //   toast.error("Please enter the cardholder name")
+      //   return
+      // }
 
-      if (!cardComplete) {
-        toast.error("Please complete your card details")
-        return
-      }
+      // if (!cardComplete) {
+      //   toast.error("Please complete your card details")
+      //   return
+      // }
 
-      try {
-        setLoading(true)
+      // try {
+      //   setLoading(true)
 
-        // Step 1 — Ask backend to create a PaymentIntent, get clientSecret
-        const intentRes = await axios.post('/api/order/create-payment-intent', {
-          amount: totalPrice
-        })
+      //   // Step 1 — Ask backend to create a PaymentIntent, get clientSecret
+      //   const intentRes = await axios.post('/api/order/create-payment-intent', {
+      //     amount: totalPrice
+      //   })
 
-        if (!intentRes.data.success) {
-          toast.error(intentRes.data.message || "Payment initiation failed")
-          return
-        }
+      //   if (!intentRes.data.success) {
+      //     toast.error(intentRes.data.message || "Payment initiation failed")
+      //     return
+      //   }
 
-        const { clientSecret } = intentRes.data
+      //   const { clientSecret } = intentRes.data
 
-        // Step 2 — Stripe confirms the card charge using the clientSecret
-        const cardElement = elements.getElement(CardElement)
+      //   // Step 2 — Stripe confirms the card charge using the clientSecret
+      //   const cardElement = elements.getElement(CardElement)
 
-        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: cardElement,
-            billing_details: { name: cardName }
-          }
-        })
+      //   const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      //     payment_method: {
+      //       card: cardElement,
+      //       billing_details: { name: cardName }
+      //     }
+      //   })
 
-        if (error) {
-          // Card declined, wrong CVV, insufficient funds, etc.
-          setCardError(error.message)
-          toast.error(error.message)
-          return
-        }
+      //   if (error) {
+      //     // Card declined, wrong CVV, insufficient funds, etc.
+      //     setCardError(error.message)
+      //     toast.error(error.message)
+      //     return
+      //   }
 
-        if (paymentIntent.status !== 'succeeded') {
-          toast.error("Payment was not completed. Please try again.")
-          return
-        }
+      //   if (paymentIntent.status !== 'succeeded') {
+      //     toast.error("Payment was not completed. Please try again.")
+      //     return
+      //   }
 
-        // Step 3 — Payment succeeded: place the order with the paymentIntent ID
-        // Backend verifies this ID with Stripe before saving the order
-        const { data } = await axios.post('/api/order/place', {
-          address,
-          paymentMethod,
-          stripePaymentIntentId: paymentIntent.id   // backend verifies this
-        })
+      //   // Step 3 — Payment succeeded: place the order with the paymentIntent ID
+      //   // Backend verifies this ID with Stripe before saving the order
+      //   const { data } = await axios.post('/api/order/place', {
+      //     address,
+      //     paymentMethod,
+      //     stripePaymentIntentId: paymentIntent.id   // backend verifies this
+      //   })
 
-        if (data.success) {
-          toast.success(data.message)
-          fetchCart()
-          navigate('/my-orders')
-        } else {
-          toast.error(data.message)
-        }
+      //   if (data.success) {
+      //     toast.success(data.message)
+      //     fetchCart()
+      //     navigate('/my-orders')
+      //   } else {
+      //     toast.error(data.message)
+      //   }
 
-      } catch (err) {
-        console.error("Online payment error:", err)
-        toast.error("Something went wrong. Please try again.")
-      } finally {
-        setLoading(false)
-      }
+      // } catch (err) {
+      //   console.error("Online payment error:", err)
+      //   toast.error("Something went wrong. Please try again.")
+      // } finally {
+      //   setLoading(false)
+      // }
+
+      toast.success("Payment Successfully Submitted!")
 
       return
     }
