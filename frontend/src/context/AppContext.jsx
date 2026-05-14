@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL || ''
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 axios.defaults.withCredentials = true
+
+console.log("Base URL:", import.meta.env.VITE_BASE_URL)
 
 export const AppContext = createContext()
 
