@@ -194,7 +194,7 @@ const Checkout = () => {
       // }
 
       toast.success("Payment Successfully Submitted!")
-
+      navigate('/my-orders')
       return
     }
 
