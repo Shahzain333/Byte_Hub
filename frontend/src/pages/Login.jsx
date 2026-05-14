@@ -6,7 +6,7 @@ import { AppContext } from '../context/AppContext'
 
 const Login = () => {
 
-  const { axios, loading, setLoading, navigate, isAuth } = useContext(AppContext)
+  const { axios, loading, setLoading, navigate, isAuth, setUser } = useContext(AppContext)
 
   // ── Login state ──────────────────────────────────────────────
   const [showPassword, setShowPassword] = useState(false)
@@ -36,6 +36,7 @@ const Login = () => {
       setLoading(true)
       const { data } = await axios.post('/api/auth/login', formData)
       if (data.success) {
+        setUser(data.user)
         await isAuth()
         toast.success(data.message)
         navigate('/')
