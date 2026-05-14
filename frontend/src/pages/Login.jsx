@@ -36,6 +36,7 @@ const Login = () => {
       setLoading(true)
       const { data } = await axios.post('/api/auth/login', formData)
       if (data.success) {
+        setUser(data.user)
         await isAuth()
         setUser(data.user)
         toast.success(data.message)
