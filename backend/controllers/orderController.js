@@ -1,10 +1,11 @@
+import '../config/env.js'
 import Order from '../models/order.js'
 import Cart from '../models/carts.js'
 import User from '../models/user.js'
 import { sendOrderStatusEmail } from '../utils/sendTransactionalEmails.js'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_API_SECRET_KEY)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export const createPaymentIntent = async (req, res) => {
     try {
